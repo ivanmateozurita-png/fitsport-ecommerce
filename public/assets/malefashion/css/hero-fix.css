@@ -1,0 +1,70 @@
+```
+/* ==========================================
+   FITSPORT HERO BANNER - POLISHED DESIGN
+   ========================================== */
+
+/* Hero Image: Standard Cover */
+.hero__items {
+    background-size: cover !important;
+    /* Removes black borders */
+    background-repeat: no-repeat !important;
+    background-position: top center !important;
+    /* Focus on heads/upper body */
+    min-height: 550px;
+    /* Reduced height as requested (was 750px) */
+}
+
+/* Polished Glassmorphism Card */
+.hero__text {
+    background: rgba(0, 0, 0, 0.75) !important;
+    /* Slightly darker for contrast */
+    padding: 45px !important;
+    border-radius: 4px !important;
+    /* Crisper corners */
+    backdrop-filter: blur(8px) !important;
+    border-left: 5px solid #e53637;
+    /* FitSport Brand Red Accent */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 550px;
+}
+
+/* Typography Improvements */
+.hero__text h6 {
+    color: #e53637 !important;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.hero__text h2 {
+    color: #fff !important;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    text-shadow: none;
+    /* Removed heavy shadow for cleaner look */
+}
+
+.hero__text p {
+    color: #ddd !important;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+
+.primary-btn {
+    background-color: #fff;
+    color: #111;
+    border-radius: 2px;
+    font-weight: 700;
+    padding: 14px 30px;
+}
+
+.primary-btn:hover {
+    background-color: #e53637;
+    color: #fff;
+}

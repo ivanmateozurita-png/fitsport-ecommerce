@@ -1,0 +1,526 @@
+/* Estilos personalizados para Fitsport */
+
+:root {
+    /* Variables de color de la marca */
+    --fitsport-gold: #fede67;
+    --fitsport-black: #111111;
+    --fitsport-gray: #252525;
+}
+
+/* --- Header / Encabezado --- */
+/* Fondo oscuro para mayor contraste */
+.header {
+    background: var(--fitsport-black);
+    border-bottom: 1px solid var(--fitsport-gray);
+}
+
+/* Texto del menú en blanco */
+.header__menu ul li a {
+    color: #ffffff;
+}
+
+/* Hover dorado en enlaces del menú */
+.header__menu ul li a:hover {
+    color: var(--fitsport-gold);
+}
+
+/* Iconos de navegación en blanco */
+.header__nav__option a {
+    color: #ffffff;
+}
+
+/* --- Sobreescritura de Colores Generales --- */
+/* Títulos de sección en dorado */
+.section-title span {
+    color: var(--fitsport-gold) !important;
+}
+
+/* Línea indicadora de menú activo */
+.header__menu ul li a:after {
+    background: var(--fitsport-gold) !important;
+}
+
+/* --- Botones --- */
+/* Botón principal con borde dorado y fondo negro */
+.primary-btn {
+    background: var(--fitsport-black);
+    color: var(--fitsport-gold) !important;
+    border: 1px solid var(--fitsport-gold);
+    transition: all 0.3s;
+}
+
+/* Efecto hover: inversión de colores */
+.primary-btn:hover {
+    background: var(--fitsport-gold);
+    color: var(--fitsport-black) !important;
+}
+
+/* Color del precio en el carrito */
+.header__nav__option .price {
+    color: var(--fitsport-gold);
+}
+
+/* --- HERO SLIDER (Corrección de Legibilidad) --- */
+/* Títulos del Hero en Blanco puro para resaltar sobre fondo oscuro */
+.hero__text h2 {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Sombra para máxima legibilidad */
+}
+
+/* Descripciones del Hero en Blanco (gris muy claro) */
+.hero__text p {
+    color: #e0e0e0 !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Subtítulos pequeños en Dorado */
+.hero__text h6 {
+    color: var(--fitsport-gold) !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Flechas del slider en Blanco */
+.hero__slider.owl-carousel .owl-nav button {
+    color: #ffffff !important;
+}
+
+/* --- Catálogo y Productos --- */
+/* Títulos de productos */
+.product__item__text h5 {
+    color: var(--fitsport-gold);
+    font-weight: 700;
+}
+
+/* Enlace "Añadir al carrito" */
+.product__item__text .add-cart {
+    color: var(--fitsport-gold) !important;
+}
+
+/* Hover en título del producto */
+.product__item:hover .product__item__text h6 {
+    color: var(--fitsport-gold);
+}
+
+/* Estrellas de calificación */
+.rating i {
+    color: var(--fitsport-gold) !important;
+}
+
+/* --- Footer --- */
+/* Fondo negro acorde al tema */
+.footer {
+    background: var(--fitsport-black);
+}
+
+/* Hover en enlaces del footer */
+.footer__widget ul li a:hover {
+    color: var(--fitsport-gold);
+}
+
+/* Texto de copyright */
+.footer__copyright__text p {
+    color: #b7b7b7;
+}
+
+/* Icono corazón footer */
+.footer__copyright__text p i {
+    color: var(--fitsport-gold);
+}
+
+/* --- Paginación --- */
+/* Página actual */
+.product__pagination a.active {
+    background: var(--fitsport-black);
+    color: var(--fitsport-gold);
+    border-color: var(--fitsport-gold);
+}
+
+/* Hover en paginación */
+.product__pagination a:hover {
+    background: var(--fitsport-gold);
+    color: var(--fitsport-black);
+}
+
+/* --- Breadcrumb --- */
+/* Fondo gris oscuro para separar del header */
+.breadcrumb-option {
+    background: var(--fitsport-gray);
+}
+
+/* Textos en breadcrumb */
+.breadcrumb__text h4,
+.breadcrumb__links a {
+    color: #ffffff;
+}
+
+.breadcrumb__links span {
+    color: var(--fitsport-gold);
+}
+
+/* --- Barra Lateral / Filtros --- */
+/* Hover en categorías */
+.shop__sidebar__categories ul li a:hover {
+    color: var(--fitsport-gold);
+}
+
+/* Botón de búsqueda en sidebar */
+.shop__sidebar__search form button {
+    background: var(--fitsport-gold);
+    color: var(--fitsport-black);
+    border: none;
+}
+
+/* --- Detalle de Producto --- */
+/* Botón "Añadir al Carrito" destacado */
+.product__details__cart__option .primary-btn {
+    background: var(--fitsport-gold);
+    color: var(--fitsport-black) !important;
+    border: none;
+}
+
+.product__details__cart__option .primary-btn:hover {
+    background: var(--fitsport-black);
+    color: var(--fitsport-gold) !important;
+}
+
+/* Etiquetas (Nuevo/Oferta) */
+.product__item__pic .label {
+    background: var(--fitsport-black);
+    color: var(--fitsport-gold);
+}
+
+/* --- Buscador Overlay --- */
+.search-model {
+    background: rgba(17, 17, 17, 0.95);
+}
+
+.search-model-form input {
+    border-bottom: 2px solid var(--fitsport-gold);
+    color: #fff;
+}
+
+/* --- Banners (Corrección de Contraste) --- */
+/* Títulos de las colecciones sobre imágenes oscuras */
+.banner__item__text h2 {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    /* Sombra fuerte para leerse sobre cualquier fondo */
+}
+
+/* Enlace "Ver más" de los banners */
+.banner__item__text a {
+    color: var(--fitsport-gold) !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+    border-bottom: 2px solid var(--fitsport-gold);
+    /* Subrayado dorado */
+}
+/* --- Correcci�n de Dimensiones (Simetr�a) --- */
+.banner__item__pic img {
+    height: 440px !important;
+    object-fit: cover !important;
+    width: 100%;
+}
+
+/* --- Fondo General Gris�ceo (Premium) --- */
+body {
+    background-color: #f3f3f3; /* Gris suave para reducir el brillo */
+}
+
+/* Mantenemos las tarjetas blancas para contraste */
+.product__item {
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* --- Login/Register Card Container --- */
+.checkout.spad .checkout__form {
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.coupon__code {
+    background: var(--fitsport-black);
+    color: var(--fitsport-gold) !important;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.checkout__title {
+    color: var(--fitsport-black);
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+/* Auth Card Container */
+.auth-card-container {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    margin: 50px 0;
+}
+
+.auth-card-container h4 {
+    color: var(--fitsport-black);
+    font-weight: 700;
+}
+
+.auth-card-container label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.auth-card-container .checkout__input {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+
+/* Premium Checkout Styles */
+.checkout__order {
+    background: #111111;
+    padding: 40px;
+    border-radius: 4px;
+}
+
+.checkout__order .order__title {
+    color: #fede67;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.checkout__order__products {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.checkout__order__products span {
+    color: #fede67;
+    float: right;
+}
+
+.checkout__total__products li {
+    color: #999999;
+    font-size: 15px;
+    list-style: none;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.checkout__total__products li span {
+    color: #ffffff;
+    float: right;
+    font-weight: 700;
+}
+
+.checkout__total__all {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 20px 0;
+    margin-bottom: 30px;
+}
+
+.checkout__total__all li {
+    list-style: none;
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.checkout__total__all li span {
+    color: #fede67;
+    float: right;
+    font-weight: 700;
+}
+
+.checkout__total__all li:last-child span {
+    color: #fede67;
+    font-size: 20px;
+}
+
+.site-btn {
+    background: #fede67;
+    color: #111;
+    font-weight: 700;
+    width: 100%;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.site-btn:hover {
+    background: #eec335;
+    color: #000;
+}
+
+.checkout__input {
+    height: 50px;
+    border: 1px solid #e1e1e1;
+    background: #ffffff;
+    padding-left: 20px;
+    font-size: 15px;
+    color: #b7b7b7;
+    border-radius: 2px;
+    margin-bottom: 25px;
+    transition: all 0.3s;
+}
+
+.checkout__input:focus {
+    border-color: #fede67;
+    color: #111;
+    box-shadow: 0 0 5px rgba(254, 222, 103, 0.2);
+}
+
+.checkout__title {
+    color: #111;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 2px solid #fede67;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    display: inline-block;
+}
+
+
+/* Fix Checkout Layout */
+.checkout.spad .container {
+    max-width: 1400px; /* Mas ancho */
+    background: transparent; /* Quitar fondo blanco general */
+    box-shadow: none;
+}
+
+.checkout__form .col-lg-8 {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 4px;
+    margin-right: 0; /* Bootstrap grid handle spacing */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.checkout__order {
+    /* Ya tiene background negro */
+    margin-left: 20px;
+    height: 100%;
+}
+
+/* Ajustar inputs en layout ancho */
+.checkout__input {
+    max-width: 100%;
+}
+
+
+/* Fix Full Width Checkout */
+.checkout.spad .container-fluid {
+    width: 100%;
+    max-width: none !important;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.checkout.spad {
+    background: #fdfdfd !important; /* Fondo gris muy claro para contraste */
+    padding: 20px 0;
+}
+
+/* Remove any card effect from section */
+section.checkout {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.checkout__form__input_wrapper {
+    height: 100%; /* Match height */
+}
+
+.row.gx-5 {
+    margin-right: -20px;
+    margin-left: -20px;
+}
+
+
+/* FORCE FULL WIDTH CHECKOUT */
+form.checkout__form {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.checkout.spad .container-fluid {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 40px !important;
+}
+
+.checkout__form__input_wrapper {
+    width: 100%;
+    padding: 50px !important;
+}
+
+.checkout__order {
+    width: 100%;
+    padding: 50px !important;
+}
+
+/* Make inputs huge */
+.checkout__input {
+    height: 60px !important;
+    font-size: 16px !important;
+}
+
+
+/* BALANCED WIDE CHECKOUT */
+.checkout.spad .container-fluid {
+    max-width: 1600px !important;
+    margin: 0 auto !important;
+    padding: 0 30px !important;
+}
+
+/* Keep inputs large but legible */
+.checkout__input {
+    height: 50px !important; /* Reduced from 60px */
+    font-size: 15px !important;
+}
+
+
+/* Fix Form Alignment */
+.checkout__form label {
+    display: block !important;
+    margin-bottom: 8px !important;
+    font-weight: 600;
+    color: #111;
+    text-align: left;
+}
+
+.checkout__input {
+    width: 100% !important;
+    margin-bottom: 25px !important;
+    border-radius: 4px;
+}
+
+.checkout__form__input_wrapper .row {
+    margin-bottom: 0;
+}
+
+ 
+ / *   H e r o   I m a g e   P o s i t i o n i n g   F i x   * /  
+ . h e r o _ _ i t e m s   {   b a c k g r o u n d - s i z e :   c o v e r   ! i m p o r t a n t ;   b a c k g r o u n d - p o s i t i o n :   c e n t e r   c e n t e r   ! i m p o r t a n t ;   m i n - h e i g h t :   7 0 0 p x ;   }  
+ . h e r o _ _ i t e m s : : b e f o r e   {   c o n t e n t :   ' ' ;   p o s i t i o n :   a b s o l u t e ;   t o p :   0 ;   l e f t :   0 ;   w i d t h :   1 0 0 % ;   h e i g h t :   1 0 0 % ;   b a c k g r o u n d :   l i n e a r - g r a d i e n t ( 9 0 d e g ,   r g b a ( 0 , 0 , 0 , 0 . 7 )   0 % ,   r g b a ( 0 , 0 , 0 , 0 . 3 )   1 0 0 % ) ;   }  
+ . h e r o _ _ i t e m s : : b e f o r e   {   b a c k g r o u n d :   l i n e a r - g r a d i e n t ( 9 0 d e g ,   r g b a ( 0 , 0 , 0 , 0 . 8 5 )   0 % ,   r g b a ( 0 , 0 , 0 , 0 . 5 )   1 0 0 % )   ! i m p o r t a n t ;   }  
+ . h e r o _ _ t e x t   {   b a c k g r o u n d :   r g b a ( 0 ,   0 ,   0 ,   0 . 7 5 )   ! i m p o r t a n t ;   p a d d i n g :   4 0 p x   ! i m p o r t a n t ;   b o r d e r - r a d i u s :   8 p x   ! i m p o r t a n t ;   b a c k d r o p - f i l t e r :   b l u r ( 5 p x ) ;   }  
+ . h e r o _ _ i t e m s : : b e f o r e   {   b a c k g r o u n d :   n o n e   ! i m p o r t a n t ;   }  
+ . h e r o _ _ t e x t   h 6 ,   . h e r o _ _ t e x t   h 2 ,   . h e r o _ _ t e x t   p ,   . h e r o _ _ t e x t   a   {   p o s i t i o n :   r e l a t i v e ;   z - i n d e x :   1 0 ;   }  
+ 

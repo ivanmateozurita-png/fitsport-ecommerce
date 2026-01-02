@@ -1,0 +1,140 @@
+/* Tema Personalizado Fitsport Admin - Premium Fix V2 */
+
+:root {
+    --bs-primary: #ca1515;
+    --bs-primary-rgb: 202, 21, 21;
+    --fitsport-gold: #fbbf24;
+    --fitsport-red: #ca1515;
+    --fitsport-dark: #252525;
+}
+
+/* Tipografía Global */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.sidebar-wrapper,
+.btn,
+.table {
+    font-family: 'Outfit', sans-serif !important;
+}
+
+/* Sidebar Enlace Activo */
+.sidebar-wrapper .sidebar-menu .sidebar-item.active .sidebar-link {
+    background: linear-gradient(90deg, var(--fitsport-red) 0%, #a31111 100%) !important;
+    box-shadow: 0 4px 15px rgba(202, 21, 21, 0.4) !important;
+    font-weight: 600;
+}
+
+/* Botones Primarios */
+.btn-primary {
+    background-color: var(--fitsport-red) !important;
+    border-color: var(--fitsport-red) !important;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.btn-primary:hover {
+    background-color: #a31111 !important;
+    border-color: #a31111 !important;
+}
+
+/* Tarjetas Dashboard */
+.card {
+    background-color: var(--fitsport-dark) !important;
+    border: 1px solid #333;
+    border-radius: 12px;
+}
+
+/* Iconos de Estadísticas - SOLIDOS / GRADIENTES */
+.stats-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 12px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    /* Contexto */
+    margin-right: 1.5rem !important;
+    padding: 0 !important;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.stats-icon i {
+    font-size: 1.6rem !important;
+    color: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+    position: static !important;
+    /* CRITICO: Anular absolute theme */
+    transform: translateY(-3px) !important;
+    /* Ajuste óptico vital */
+}
+
+/* Colores para Iconos - Fitsport Palette */
+.stats-icon.purple {
+    background: linear-gradient(135deg, #ca1515 0%, #991b1b 100%);
+    /* Red Gradient */
+}
+
+.stats-icon.blue {
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+    /* Gold Gradient */
+}
+
+.stats-icon.red {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    /* Alert Red */
+}
+
+.stats-icon.green {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    /* Green/Action */
+}
+
+/* Tabla - Alineación */
+.table td {
+    vertical-align: middle !important;
+    padding: 1rem 0.5rem;
+    border-color: #333;
+}
+
+.table thead th {
+    border-color: #333;
+    color: #888;
+}
+
+/* Avatares */
+.avatar {
+    width: 40px;
+    height: 40px;
+    background: #444;
+    /* Un poco mas claro para ver limites */
+    border-radius: 50%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #bbb;
+    position: relative;
+    overflow: hidden;
+    /* Asegurar que img o i no salga */
+}
+
+.avatar i {
+    font-size: 1.5rem;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-block !important;
+    position: static !important;
+    transform: translateY(-4px) !important;
+    /* Ajuste visual para subir el avatar */
+}

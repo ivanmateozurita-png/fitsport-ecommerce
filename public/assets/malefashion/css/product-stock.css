@@ -1,0 +1,37 @@
+/* Stock Badge Styles */
+.product__details__stock {
+    margin: 15px 0;
+}
+
+.stock-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.stock-badge.in-stock {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.stock-badge.out-of-stock {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.stock-badge i {
+    margin-right: 5px;
+}
+
+/* Size label styling */
+.product__details__option__size label {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 2px solid #e1e1e1;
+    border-radius: 4px;
+    cursor: default;
+    font-weight: 600;
+    background: #f8f8f8;
+}

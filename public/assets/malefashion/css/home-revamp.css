@@ -1,0 +1,125 @@
+/* ==========================================
+   FITSPORT HOME REVAMP - URBAN FASHION STYLE
+   ========================================== */
+
+/* 1. HERO SECTION - CLEAN & EDITORIAL */
+.hero__items {
+    min-height: 800px;
+    /* Taller hero for more impact */
+}
+
+/* Remove the old black card, we go for clean text on image */
+.hero__text {
+    background: transparent !important;
+    padding: 0 !important;
+    backdrop-filter: none !important;
+    text-align: left;
+}
+
+.hero__text h6 {
+    color: #e53637 !important;
+    /* Brand Red/Orange */
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    /* Wide tracking for premium feel */
+    margin-bottom: 20px;
+}
+
+.hero__text h2 {
+    color: #fff;
+    font-size: 80px;
+    /* Massive headline */
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+    /* Soft shadow for readability */
+}
+
+.hero__text p {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 40px;
+    max-width: 500px;
+    line-height: 1.6;
+    text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* 2. BUTTONS - MINIMALIST */
+.primary-btn {
+    background: #fff;
+    /* White button */
+    color: #111;
+    border-radius: 0;
+    /* Square buttons are more fashion */
+    padding: 14px 35px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border: none;
+    transition: all 0.3s;
+}
+
+.primary-btn:hover {
+    background: #e53637;
+    /* Brand color on hover */
+    color: #fff;
+}
+
+/* 3. COLLECTIONS BANNER - EDITORIAL GRID */
+.banner__item {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.banner__item__pic img {
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+/* Zoom effect on hover */
+.banner__item:hover .banner__item__pic img {
+    transform: scale(1.05);
+}
+
+.banner__item__text {
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    transform: translateY(-50%);
+    background: transparent;
+    padding: 0;
+}
+
+.banner__item__text h2 {
+    color: #111;
+    font-size: 36px;
+    background: #fff;
+    padding: 10px 20px;
+    display: inline-block;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.banner__item__text a {
+    display: block;
+    margin-top: 15px;
+    color: #111;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+/* 4. PRODUCT CARD - CLEANER */
+.product__item__text h6 {
+    color: #333;
+    font-weight: 600;
+}
+
+.product__item__text h5 {
+    color: #e53637;
+    font-weight: 700;
+}

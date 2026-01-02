@@ -1,0 +1,12 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app/
+
+    level: 1
+
+    ignoreErrors:
+        # Ignorar errores de relaciones (Larastan no detecta relaciones dinamicas)
+        - '#Relation .* is not found in#'
