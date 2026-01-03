@@ -16,8 +16,8 @@
                                 <p>Diseñada para atletas que buscan superar sus límites con estilo y comodidad.</p>
                                 <a href="{{ route('catalog.index') }}" class="primary-btn">Ver Catálogo <span class="arrow_right"></span></a>
                                 <div class="hero__social">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
+                                    <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+                                    <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -34,8 +34,8 @@
                                 <p>Descubre lo último en tecnología deportiva y moda urbana.</p>
                                 <a href="{{ route('catalog.index') }}" class="primary-btn">Comprar Ahora <span class="arrow_right"></span></a>
                                 <div class="hero__social">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
+                                    <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+                                    <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -110,8 +110,8 @@
                         <div class="product__item__pic set-bg" data-setbg="{{ asset($product->image_path) }}">
                             <span class="label">Nuevo</span>
                             <ul class="product__hover">
-                                <li><a href="#"><img src="{{ asset('assets/malefashion/img/icon/heart.png') }}" alt=""></a></li>
-                                <li><a href="{{ route('product.show', $product->id) }}"><img src="{{ asset('assets/malefashion/img/icon/search.png') }}" alt=""></a></li>
+                                <li><a href="#" aria-label="Agregar a favoritos"><img src="{{ asset('assets/malefashion/img/icon/heart.png') }}" alt="Favoritos"></a></li>
+                                <li><a href="{{ route('product.show', $product->id) }}" aria-label="Ver detalles"><img src="{{ asset('assets/malefashion/img/icon/search.png') }}" alt="Ver"></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">

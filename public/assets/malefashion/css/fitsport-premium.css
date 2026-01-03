@@ -267,7 +267,7 @@ h6 {
 }
 
 .product__item__text h6 {
-    color: #444 !important;
+    color: #1a1a1a !important; /* Mejorado para accesibilidad */
     font-weight: 500;
     font-size: 15px;
 }
@@ -295,7 +295,7 @@ h6 {
 
 .filter__controls li {
     font-size: 18px;
-    color: #888;
+    color: #555555; /* Mejorado para accesibilidad */
     display: inline-block;
     margin-right: 25px;
     position: relative;

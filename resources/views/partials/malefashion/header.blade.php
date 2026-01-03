@@ -62,8 +62,8 @@
                 </div>
                 <!-- Desktop cart/search - hidden on mobile -->
                 <div class="col-lg-3 col-md-3 d-none d-lg-flex" style="align-items: center; justify-content: flex-end; gap: 20px;">
-                    <a href="#" class="search-switch"><i class="fa fa-search" style="font-size: 20px; color: #ffffff;"></i></a>
-                    <a href="{{ route('cart.index') }}" style="position: relative; display: flex; align-items: center; gap: 5px; text-decoration: none;">
+                    <a href="#" class="search-switch" aria-label="Buscar"><i class="fa fa-search" style="font-size: 20px; color: #ffffff;"></i></a>
+                    <a href="{{ route('cart.index') }}" aria-label="Carrito de compras" style="position: relative; display: flex; align-items: center; gap: 5px; text-decoration: none;">
                         <i class="fa fa-shopping-cart" style="font-size: 22px; color: #ffffff;"></i>
                         <span id="cart-count" style="position: absolute; top: -8px; right: -10px; background: #fede67; color: #111; font-size: 11px; font-weight: bold; min-width: 18px; height: 18px; border-radius: 50%; display: {{ array_sum(array_map(fn($i) => $i['quantity'] ?? $i['cantidad'] ?? 0, session()->get('cart', []))) > 0 ? 'flex' : 'none' }}; align-items: center; justify-content: center;">{{ array_sum(array_map(fn($i) => $i['quantity'] ?? $i['cantidad'] ?? 0, session()->get('cart', []))) }}</span>
                         <span id="cart-price" style="color: #fede67; font-weight: 600; font-size: 14px; margin-left: 3px;">${{ number_format(array_sum(array_map(fn($i) => ($i['price'] ?? $i['precio'] ?? 0) * ($i['quantity'] ?? $i['cantidad'] ?? 0), session()->get('cart', []))), 2) }}</span>
@@ -71,7 +71,7 @@
                 </div>
                 <!-- Mobile cart/menu - shown only on mobile -->
                 <div class="d-lg-none mobile-cart-icons">
-                    <a href="{{ route('cart.index') }}" style="color: #fff !important; font-size: 22px; position: relative; background: transparent !important; border: none !important;">
+                    <a href="{{ route('cart.index') }}" aria-label="Carrito de compras" style="color: #fff !important; font-size: 22px; position: relative; background: transparent !important; border: none !important;">
                         <i class="fa fa-shopping-cart"></i>
                         @if(array_sum(array_map(fn($i) => $i['quantity'] ?? $i['cantidad'] ?? 0, session()->get('cart', []))) > 0)
                             <span style="position: absolute; top: -6px; right: -10px; background: #fede67; color: #111; font-size: 11px; font-weight: bold; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">{{ array_sum(array_map(fn($i) => $i['quantity'] ?? $i['cantidad'] ?? 0, session()->get('cart', []))) }}</span>
