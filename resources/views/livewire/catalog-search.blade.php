@@ -99,8 +99,8 @@
                         <div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="{{ asset($product->image_path) }}" style="background-image: url('{{ asset($product->image_path) }}');">
                                 <ul class="product__hover">
-                                    <li><a href="#"><img src="{{ asset('assets/malefashion/img/icon/heart.png') }}" alt=""></a></li>
-                                    <li><a href="{{ route('product.show', $product->id) }}"><img src="{{ asset('assets/malefashion/img/icon/search.png') }}" alt=""></a></li>
+                                    <li><a href="#" aria-label="Agregar a favoritos"><img src="{{ asset('assets/malefashion/img/icon/heart.png') }}" alt="Favoritos" loading="lazy"></a></li>
+                                    <li><a href="{{ route('product.show', $product->id) }}" aria-label="Ver detalles"><img src="{{ asset('assets/malefashion/img/icon/search.png') }}" alt="Ver" loading="lazy"></a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">

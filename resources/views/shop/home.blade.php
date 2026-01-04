@@ -6,7 +6,7 @@
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="hero__slider owl-carousel">
-            <div class="hero__items set-bg" data-setbg="{{ asset('assets/malefashion/img/hero/hero-1.jpg') }}">
+            <div class="hero__items set-bg" data-setbg="{{ asset('assets/malefashion/img/hero/hero-1.webp') }}">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-5 col-lg-7 col-md-8">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hero__items set-bg hero-shoe-align" data-setbg="{{ asset('assets/malefashion/img/hero/hero-2.jpg') }}">
+            <div class="hero__items set-bg hero-shoe-align" data-setbg="{{ asset('assets/malefashion/img/hero/hero-2.webp') }}">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-5 col-lg-7 col-md-8">
@@ -54,7 +54,7 @@
                     <div class="col-lg-7 col-md-12">
                         <div class="banner__item">
                             <div class="banner__item__pic" style="height: 850px;"> <!-- Luxury Height Increased -->
-                                <img src="{{ asset('assets/malefashion/img/banner/banner-1.jpg') }}" alt="" style="height: 100%; object-fit: cover;">
+                                <img src="{{ asset('assets/malefashion/img/banner/banner-1.webp') }}" alt="Coleccion Ropa" loading="lazy" style="height: 100%; object-fit: cover;">
                             </div>
                             <div class="banner__item__text">
                                 <h2>Colección Ropa</h2>
@@ -68,7 +68,7 @@
                     <!-- Top Right (Accessories) -->
                     <div class="banner__item">
                         <div class="banner__item__pic" style="height: 350px;"> <!-- Balanced Height -->
-                            <img src="{{ asset('assets/malefashion/img/banner/banner-2.jpg') }}" alt="" style="height: 100%; object-fit: cover;">
+                            <img src="{{ asset('assets/malefashion/img/banner/banner-2.webp') }}" alt="Accesorios" loading="lazy" style="height: 100%; object-fit: cover;">
                         </div>
                         <div class="banner__item__text">
                             <h2>Accesorios</h2>
@@ -78,7 +78,7 @@
                     <!-- Bottom Right (Shoes) -->
                     <div class="banner__item">
                         <div class="banner__item__pic" style="height: 350px;"> 
-                            <img src="{{ asset('assets/malefashion/img/banner/banner-3.jpg') }}" alt="" style="height: 100%; object-fit: cover;">
+                            <img src="{{ asset('assets/malefashion/img/banner/banner-3.webp') }}" alt="Calzado" loading="lazy" style="height: 100%; object-fit: cover;">
                         </div>
                         <div class="banner__item__text">
                             <h2>Calzado 2025</h2>
