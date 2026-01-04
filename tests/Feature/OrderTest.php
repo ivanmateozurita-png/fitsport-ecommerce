@@ -129,9 +129,119 @@ class OrderTest extends TestCase
 
         Order::factory()->create(['user_id' => $user1->id]);
 
-        // User2 intenta ver pedidos pero solo ve los suyos
         $response = $this->actingAs($user2)->get('/my-orders');
         $response->assertStatus(200);
-        // Los pedidos de user1 no deben aparecer
+    }
+
+    public function test_checkout_redirects_when_cart_empty(): void
+    {
+        $user = $this->createAuthenticatedUser();
+        
+        $response = $this->actingAs($user)->get('/checkout');
+        $response->assertRedirect(route('cart.index'));
+    }
+
+    public function test_process_fails_with_empty_cart(): void
+    {
+        $user = $this->createAuthenticatedUser();
+        
+        $response = $this->actingAs($user)->post('/checkout/process', [
+            'name' => 'Test',
+            'email' => $user->email,
+            'phone' => '123',
+            'address' => 'Dir',
+        ]);
+        
+        $response->assertRedirect(route('cart.index'));
+    }
+
+    public function test_checkout_process_validates_name(): void
+    {
+        $user = $this->createAuthenticatedUser();
+        $product = $this->createProduct(10);
+
+        $this->actingAs($user)->post('/cart/add', [
+            'product_id' => $product->id,
+            'quantity' => 1,
+        ]);
+
+        $response = $this->actingAs($user)->post('/checkout/process', [
+            'name' => '',
+            'email' => $user->email,
+            'address' => 'Dir',
+        ]);
+
+        $response->assertSessionHasErrors('name');
+    }
+
+    public function test_checkout_process_validates_email(): void
+    {
+        $user = $this->createAuthenticatedUser();
+        $product = $this->createProduct(10);
+
+        $this->actingAs($user)->post('/cart/add', [
+            'product_id' => $product->id,
+            'quantity' => 1,
+        ]);
+
+        $response = $this->actingAs($user)->post('/checkout/process', [
+            'name' => 'Test',
+            'email' => 'invalid-email',
+            'address' => 'Dir',
+        ]);
+
+        $response->assertSessionHasErrors('email');
+    }
+
+    public function test_checkout_process_validates_address(): void
+    {
+        $user = $this->createAuthenticatedUser();
+        $product = $this->createProduct(10);
+
+        $this->actingAs($user)->post('/cart/add', [
+            'product_id' => $product->id,
+            'quantity' => 1,
+        ]);
+
+        $response = $this->actingAs($user)->post('/checkout/process', [
+            'name' => 'Test',
+            'email' => $user->email,
+            'address' => '',
+        ]);
+
+        $response->assertSessionHasErrors('address');
+    }
+
+    public function test_order_items_are_created(): void
+    {
+        $user = $this->createAuthenticatedUser();
+        $product = $this->createProduct(10);
+
+        $this->actingAs($user)->post('/cart/add', [
+            'product_id' => $product->id,
+            'quantity' => 2,
+        ]);
+
+        $this->actingAs($user)->post('/checkout/process', [
+            'name' => 'Test',
+            'email' => $user->email,
+            'phone' => '123',
+            'address' => 'Test Dir',
+        ]);
+
+        $order = Order::where('user_id', $user->id)->first();
+        $this->assertNotNull($order);
+        $this->assertCount(1, $order->items);
+    }
+
+    public function test_my_orders_shows_user_orders(): void
+    {
+        $user = $this->createAuthenticatedUser();
+        
+        Order::factory()->create(['user_id' => $user->id]);
+        Order::factory()->create(['user_id' => $user->id]);
+
+        $response = $this->actingAs($user)->get('/my-orders');
+        $response->assertStatus(200);
     }
 }

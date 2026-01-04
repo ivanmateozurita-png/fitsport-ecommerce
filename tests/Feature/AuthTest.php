@@ -117,4 +117,26 @@ class AuthTest extends TestCase
 
         $response->assertSessionHasErrors('email');
     }
+
+    public function test_forgot_password_page_accessible(): void
+    {
+        $response = $this->get('/forgot-password');
+        $response->assertStatus(200);
+    }
+
+    public function test_password_reset_request_validates_email(): void
+    {
+        $response = $this->post('/forgot-password', [
+            'email' => '',
+        ]);
+        $response->assertSessionHasErrors('email');
+    }
+
+    public function test_password_reset_with_invalid_email(): void
+    {
+        $response = $this->post('/forgot-password', [
+            'email' => 'nonexistent@example.com',
+        ]);
+        $response->assertRedirect();
+    }
 }
