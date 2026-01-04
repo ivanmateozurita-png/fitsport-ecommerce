@@ -13,16 +13,16 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Agregar cabeceras de seguridad a todas las respuestas
         $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
-        
+
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
-        
+
         // Excluir FitBot de verificación CSRF
         $middleware->validateCsrfTokens(except: [
-            'fitbot/*'
+            'fitbot/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

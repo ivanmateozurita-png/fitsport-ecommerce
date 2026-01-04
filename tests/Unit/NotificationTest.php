@@ -16,10 +16,10 @@ class NotificationTest extends TestCase
     {
         $user = User::factory()->create();
         $token = 'test-token-123';
-        
+
         $notification = new ResetPassword($token);
         $mailMessage = $notification->toMail($user);
-        
+
         $this->assertInstanceOf(MailMessage::class, $mailMessage);
     }
 
@@ -27,10 +27,10 @@ class NotificationTest extends TestCase
     {
         $user = User::factory()->create();
         $token = 'test-token-456';
-        
+
         $notification = new ResetPassword($token);
         $mailMessage = $notification->toMail($user);
-        
+
         $this->assertEquals('Restablecer Contraseña - FitSport', $mailMessage->subject);
     }
 
@@ -38,10 +38,10 @@ class NotificationTest extends TestCase
     {
         $user = User::factory()->create();
         $token = 'test-token-789';
-        
+
         $notification = new ResetPassword($token);
         $mailMessage = $notification->toMail($user);
-        
+
         $this->assertNotEmpty($mailMessage->actionUrl);
     }
 
@@ -49,10 +49,10 @@ class NotificationTest extends TestCase
     {
         $user = User::factory()->create();
         $token = 'test-token-abc';
-        
+
         $notification = new ResetPassword($token);
         $mailMessage = $notification->toMail($user);
-        
+
         $this->assertEquals('¡Hola!', $mailMessage->greeting);
     }
 }

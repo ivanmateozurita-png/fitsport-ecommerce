@@ -2,9 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Product;
 use App\Models\Category;
-use App\Models\User;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,6 +14,7 @@ class CartTest extends TestCase
     protected function createProduct(int $stock = 10): Product
     {
         $category = Category::factory()->create();
+
         return Product::factory()->create([
             'category_id' => $category->id,
             'stock' => $stock,
@@ -92,7 +92,7 @@ class CartTest extends TestCase
         ]);
 
         // Eliminar
-        $response = $this->delete('/cart/remove/' . $product->id);
+        $response = $this->delete('/cart/remove/'.$product->id);
 
         // Acepta 200 (JSON) o 302 (redirect)
         $this->assertTrue(in_array($response->status(), [200, 302]));
@@ -110,7 +110,7 @@ class CartTest extends TestCase
             'quantity' => 1,
         ]);
 
-        $response = $this->patch('/cart/update/' . $product->id, [
+        $response = $this->patch('/cart/update/'.$product->id, [
             'quantity' => 3,
         ]);
 
@@ -202,8 +202,8 @@ class CartTest extends TestCase
             'quantity' => 1,
         ]);
 
-        $this->delete('/cart/remove/' . $product->id);
-        
+        $this->delete('/cart/remove/'.$product->id);
+
         $cart = session('cart', []);
         $this->assertArrayNotHasKey($product->id, $cart);
     }
@@ -217,7 +217,7 @@ class CartTest extends TestCase
             'quantity' => 1,
         ]);
 
-        $response = $this->patch('/cart/update/' . $product->id, [
+        $response = $this->patch('/cart/update/'.$product->id, [
             'quantity' => 0,
         ]);
 

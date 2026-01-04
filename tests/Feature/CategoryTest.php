@@ -16,7 +16,7 @@ class CategoryTest extends TestCase
             'name' => 'Test Category',
             'slug' => 'test-category',
         ]);
-        
+
         $this->assertDatabaseHas('categories', ['name' => 'Test Category']);
     }
 
@@ -28,7 +28,7 @@ class CategoryTest extends TestCase
             'slug' => 'child',
             'parent_id' => $parent->id,
         ]);
-        
+
         $this->assertEquals($parent->id, $child->parent_id);
         $this->assertInstanceOf(Category::class, $child->parent);
     }
@@ -38,7 +38,7 @@ class CategoryTest extends TestCase
         $parent = Category::create(['name' => 'Parent2', 'slug' => 'parent2']);
         Category::create(['name' => 'Child1', 'slug' => 'child1', 'parent_id' => $parent->id]);
         Category::create(['name' => 'Child2', 'slug' => 'child2', 'parent_id' => $parent->id]);
-        
+
         $this->assertCount(2, $parent->children);
     }
 
@@ -46,7 +46,7 @@ class CategoryTest extends TestCase
     {
         Category::create(['name' => 'Active', 'slug' => 'active', 'active' => 1]);
         Category::create(['name' => 'Inactive', 'slug' => 'inactive', 'active' => 0]);
-        
+
         $categories = Category::where('active', 1)->get();
         $this->assertCount(1, $categories);
     }
@@ -54,7 +54,7 @@ class CategoryTest extends TestCase
     public function test_category_products_relationship(): void
     {
         $category = Category::create(['name' => 'CatProd', 'slug' => 'catprod']);
-        
+
         \App\Models\Product::create([
             'name' => 'Prod1',
             'price' => 10,
@@ -62,7 +62,7 @@ class CategoryTest extends TestCase
             'category_id' => $category->id,
             'image_path' => 't.jpg',
         ]);
-        
+
         $this->assertCount(1, $category->products);
     }
 }

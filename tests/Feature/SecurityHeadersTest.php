@@ -12,7 +12,7 @@ class SecurityHeadersTest extends TestCase
     public function test_homepage_has_security_headers(): void
     {
         $response = $this->get('/');
-        
+
         $response->assertHeader('X-Frame-Options', 'SAMEORIGIN');
         $response->assertHeader('X-Content-Type-Options', 'nosniff');
         $response->assertHeader('X-XSS-Protection', '1; mode=block');
@@ -21,21 +21,21 @@ class SecurityHeadersTest extends TestCase
     public function test_catalog_has_security_headers(): void
     {
         $response = $this->get('/catalog');
-        
+
         $response->assertHeader('X-Frame-Options', 'SAMEORIGIN');
     }
 
     public function test_cart_has_security_headers(): void
     {
         $response = $this->get('/cart');
-        
+
         $response->assertHeader('X-Content-Type-Options', 'nosniff');
     }
 
     public function test_login_has_security_headers(): void
     {
         $response = $this->get('/login');
-        
+
         $response->assertHeader('X-XSS-Protection', '1; mode=block');
     }
 }

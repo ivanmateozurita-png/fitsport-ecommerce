@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -21,7 +21,7 @@ return new class extends Migration
         DB::table('products')->get()->each(function ($product) {
             $sizes = json_decode($product->sizes, true);
             $singleSize = is_array($sizes) && count($sizes) > 0 ? $sizes[0] : 'Única';
-            
+
             DB::table('products')
                 ->where('id', $product->id)
                 ->update(['size' => $singleSize]);
@@ -48,7 +48,7 @@ return new class extends Migration
         // Migrate back: convert single size to array
         DB::table('products')->get()->each(function ($product) {
             $sizeArray = $product->size ? [$product->size] : ['Única'];
-            
+
             DB::table('products')
                 ->where('id', $product->id)
                 ->update(['sizes' => json_encode($sizeArray)]);

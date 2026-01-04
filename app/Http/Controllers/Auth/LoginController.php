@@ -21,7 +21,6 @@ class LoginController extends Controller
     /**
      * Maneja una solicitud de autenticación.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function login(Request $request)
@@ -51,7 +50,6 @@ class LoginController extends Controller
     /**
      * Cerrar la sesión del usuario (Logout).
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function logout(Request $request)

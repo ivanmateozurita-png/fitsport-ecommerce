@@ -2,13 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\User;
 use App\Models\Profile;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,26 +29,26 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'phone' => '123456789',
             'address' => 'Admin HQ',
-            'city' => 'Quito'
+            'city' => 'Quito',
         ]);
 
         // 2. crear categorias
         $catRopa = Category::create([
             'name' => 'Ropa',
             'description' => 'Ropa deportiva de alta calidad',
-            'active' => true
+            'active' => true,
         ]);
 
         $catCalzado = Category::create([
             'name' => 'Calzado',
             'description' => 'Zapatillas para correr y entrenar',
-            'active' => true
+            'active' => true,
         ]);
 
         $catAccesorios = Category::create([
             'name' => 'Accesorios',
             'description' => 'Complementos para tu entrenamiento',
-            'active' => true
+            'active' => true,
         ]);
 
         // Subcategorias (opcional, para el sidebar)
@@ -70,7 +69,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'L',
             'color' => 'Negro',
             'image_path' => 'assets/malefashion/img/product/hoodie_black_modern.png',
-            'category_id' => $subCamisetas->id // Sudaderas en Camisetas
+            'category_id' => $subCamisetas->id, // Sudaderas en Camisetas
         ]);
 
         Product::create([
@@ -81,7 +80,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'M',
             'color' => 'Gris',
             'image_path' => 'assets/malefashion/img/product/joggers_gray_sport.png',
-            'category_id' => $subPantalones->id
+            'category_id' => $subPantalones->id,
         ]);
 
         Product::create([
@@ -92,7 +91,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'M',
             'color' => 'Azul',
             'image_path' => 'assets/malefashion/img/product/jacket_windbreaker_blue.png',
-            'category_id' => $subCamisetas->id // Chaquetas en Camisetas
+            'category_id' => $subCamisetas->id, // Chaquetas en Camisetas
         ]);
 
         Product::create([
@@ -103,7 +102,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'L',
             'color' => 'Azul Marino',
             'image_path' => 'assets/malefashion/img/product/shirt_compression_navy.png',
-            'category_id' => $subCamisetas->id
+            'category_id' => $subCamisetas->id,
         ]);
 
         // ROPA ESTÁNDAR
@@ -115,9 +114,9 @@ class DatabaseSeeder extends Seeder
             'size' => 'M',
             'color' => 'Negro',
             'image_path' => 'assets/malefashion/img/product/product_shirt.jpg',
-            'category_id' => $subCamisetas->id
+            'category_id' => $subCamisetas->id,
         ]);
-        
+
         Product::create([
             'name' => 'Sudadera Básica',
             'description' => 'Sudadera cómoda para el gimnasio.',
@@ -126,7 +125,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'XL',
             'color' => 'Negro',
             'image_path' => 'assets/malefashion/img/product/product_hoodie.png',
-            'category_id' => $subCamisetas->id // Sudaderas en Camisetas
+            'category_id' => $subCamisetas->id, // Sudaderas en Camisetas
         ]);
 
         Product::create([
@@ -137,7 +136,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'M',
             'color' => 'Gris',
             'image_path' => 'assets/malefashion/img/product/product_shorts.jpg',
-            'category_id' => $subPantalones->id
+            'category_id' => $subPantalones->id,
         ]);
 
         Product::create([
@@ -148,7 +147,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'L',
             'color' => 'Blanco',
             'image_path' => 'assets/malefashion/img/product/product_polo.png',
-            'category_id' => $subCamisetas->id
+            'category_id' => $subCamisetas->id,
         ]);
 
         Product::create([
@@ -159,7 +158,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'M',
             'color' => 'Azul',
             'image_path' => 'assets/malefashion/img/product/product_jacket.jpg',
-            'category_id' => $subCamisetas->id // Chaquetas en Camisetas
+            'category_id' => $subCamisetas->id, // Chaquetas en Camisetas
         ]);
 
         // Calzado (Expanded)
@@ -171,7 +170,7 @@ class DatabaseSeeder extends Seeder
             'size' => '42',
             'color' => 'Negro/Dorado',
             'image_path' => 'assets/malefashion/img/product/product_shoes.jpg',
-            'category_id' => $subRunning->id
+            'category_id' => $subRunning->id,
         ]);
 
         Product::create([
@@ -182,7 +181,7 @@ class DatabaseSeeder extends Seeder
             'size' => '41',
             'color' => 'Blanco/Verde',
             'image_path' => 'assets/malefashion/img/product/sneaker_retro_white_green.png', // New unique image
-            'category_id' => $subRunning->id
+            'category_id' => $subRunning->id,
         ]);
 
         Product::create([
@@ -193,7 +192,7 @@ class DatabaseSeeder extends Seeder
             'size' => '43',
             'color' => 'Gris/Naranja',
             'image_path' => 'assets/malefashion/img/product/sneaker_trail_grey_orange.png', // New unique image
-            'category_id' => $subRunning->id
+            'category_id' => $subRunning->id,
         ]);
 
         Product::create([
@@ -204,9 +203,9 @@ class DatabaseSeeder extends Seeder
             'size' => '42',
             'color' => 'Negro/Rojo',
             'image_path' => 'assets/malefashion/img/product/sneaker_training_pro_black_red.png', // New unique image
-            'category_id' => $subRunning->id
+            'category_id' => $subRunning->id,
         ]);
-        
+
         Product::create([
             'name' => 'Sneakers Lifestyle Chunky',
             'description' => 'La tendencia del momento con una suela voluminosa y cómoda.',
@@ -215,7 +214,7 @@ class DatabaseSeeder extends Seeder
             'size' => '40',
             'color' => 'Beige',
             'image_path' => 'assets/malefashion/img/product/sneaker_chunky_beige.png', // New unique image
-            'category_id' => $subRunning->id
+            'category_id' => $subRunning->id,
         ]);
 
         // Accesorios (Expanded)
@@ -227,9 +226,9 @@ class DatabaseSeeder extends Seeder
             'size' => 'Unica',
             'color' => 'Negro',
             'image_path' => 'assets/malefashion/img/product/product_bag.jpg',
-            'category_id' => $subBolsos->id
+            'category_id' => $subBolsos->id,
         ]);
-        
+
         Product::create([
             'name' => 'Gorra Snapback',
             'description' => 'Gorra de visera plana con logo bordado en 3D.',
@@ -237,8 +236,8 @@ class DatabaseSeeder extends Seeder
             'stock' => 50,
             'size' => 'Unica',
             'color' => 'Rojo',
-            'image_path' => 'assets/malefashion/img/product/product_cap.png', 
-            'category_id' => $subGorras->id
+            'image_path' => 'assets/malefashion/img/product/product_cap.png',
+            'category_id' => $subGorras->id,
         ]);
 
         Product::create([
@@ -249,7 +248,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'Unica',
             'color' => 'Azul Marino',
             'image_path' => 'assets/malefashion/img/product/gym_bag_navy.png',
-            'category_id' => $subBolsos->id
+            'category_id' => $subBolsos->id,
         ]);
 
         Product::create([
@@ -260,7 +259,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'Unica',
             'color' => 'Negro',
             'image_path' => 'assets/malefashion/img/product/waist_pack_running_black.png',
-            'category_id' => $subBolsos->id
+            'category_id' => $subBolsos->id,
         ]);
 
         Product::create([
@@ -271,7 +270,7 @@ class DatabaseSeeder extends Seeder
             'size' => 'M',
             'color' => 'Negro',
             'image_path' => 'assets/malefashion/img/product/gloves_training_black.png',
-            'category_id' => $subOtros->id
+            'category_id' => $subOtros->id,
         ]);
 
         // Llamar al seeder de roles para asignar permisos

@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -20,9 +20,9 @@ return new class extends Migration
         // Migrate existing data if any
         $products = DB::table('products')->whereNotNull('size')->get();
         foreach ($products as $product) {
-            if (!empty($product->size)) {
+            if (! empty($product->size)) {
                 DB::table('products')->where('id', $product->id)->update([
-                    'sizes' => json_encode([$product->size])
+                    'sizes' => json_encode([$product->size]),
                 ]);
             }
         }
@@ -57,7 +57,7 @@ return new class extends Migration
             $sizes = json_decode($product->sizes, true);
             if (is_array($sizes) && count($sizes) > 0) {
                 DB::table('products')->where('id', $product->id)->update([
-                    'size' => $sizes[0]
+                    'size' => $sizes[0],
                 ]);
             }
         }

@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,7 +23,7 @@ class ExtraControllerTest extends TestCase
             'image_path' => 't.jpg',
         ]);
 
-        $response = $this->get('/product/' . $product->id);
+        $response = $this->get('/product/'.$product->id);
         $response->assertStatus(200);
     }
 
@@ -52,7 +52,7 @@ class ExtraControllerTest extends TestCase
     {
         $category = Category::create(['name' => 'Shoes', 'slug' => 'shoes']);
 
-        $response = $this->get('/catalog?category_id=' . $category->id);
+        $response = $this->get('/catalog?category_id='.$category->id);
         $response->assertStatus(200);
     }
 
@@ -81,7 +81,7 @@ class ExtraControllerTest extends TestCase
     public function test_home_page_accessible_by_authenticated(): void
     {
         $user = User::factory()->create();
-        
+
         $response = $this->actingAs($user)->get('/');
         $response->assertStatus(200);
     }
@@ -89,7 +89,7 @@ class ExtraControllerTest extends TestCase
     public function test_cart_accessible_by_authenticated(): void
     {
         $user = User::factory()->create();
-        
+
         $response = $this->actingAs($user)->get('/cart');
         $response->assertStatus(200);
     }

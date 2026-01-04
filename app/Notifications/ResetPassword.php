@@ -22,7 +22,7 @@ class ResetPassword extends BaseResetPassword
             ->greeting('¡Hola!')
             ->line('Estás recibiendo este email porque recibimos una solicitud de restablecimiento de contraseña para tu cuenta.')
             ->action('Restablecer Contraseña', $url)
-            ->line('Este enlace de restablecimiento de contraseña expirará en ' . config('auth.passwords.'.config('auth.defaults.passwords').'.expire') . ' minutos.')
+            ->line('Este enlace de restablecimiento de contraseña expirará en '.config('auth.passwords.'.config('auth.defaults.passwords').'.expire').' minutos.')
             ->line('Si no solicitaste un restablecimiento de contraseña, no es necesario realizar ninguna acción.')
             ->salutation('Saludos, FitSport');
     }

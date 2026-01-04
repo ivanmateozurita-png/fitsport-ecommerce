@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -31,9 +30,9 @@ class PasswordResetTest extends TestCase
     public function test_reset_with_nonexistent_email(): void
     {
         $response = $this->post('/forgot-password', [
-            'email' => 'nonexistent@example.com'
+            'email' => 'nonexistent@example.com',
         ]);
-        
+
         $response->assertRedirect();
     }
 }

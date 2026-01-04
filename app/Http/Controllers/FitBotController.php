@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class FitBotController extends Controller
 {
@@ -17,10 +17,10 @@ class FitBotController extends Controller
         ]);
 
         $userMessage = $request->input('message');
-        
+
         // Obtener productos para recomendaciones
         $products = Product::with('category')->where('stock', '>', 0)->take(8)->get();
-        
+
         return response()->json([
             'response' => $this->generateResponse($userMessage, $products),
         ]);
@@ -32,12 +32,12 @@ class FitBotController extends Controller
     private function generateResponse($input, $products)
     {
         $input = mb_strtolower($input);
-        
+
         // Normalizar texto informal
         $input = preg_replace('/\bq\b/', 'que', $input);
         $input = preg_replace('/\bx\b/', 'por', $input);
         $input = preg_replace('/\bk\b/', 'que', $input);
-        
+
         // Saludos
         if (preg_match('/^(o?la|hola|buenas|hey|hi|buenos|saludos|wenas)/u', $input)) {
             return '¡Hola! 👋 Soy FitBot, tu asistente de Fitsport. ¿Qué buscas hoy? Tengo zapatillas, ropa deportiva y más.';
@@ -52,58 +52,62 @@ class FitBotController extends Controller
         if (preg_match('/quien eres|qué eres|eres.*bot|eres.*ia/u', $input)) {
             return 'Soy FitBot 🤖, el asistente virtual de Fitsport. Puedo ayudarte a encontrar ropa deportiva, ver precios y más.';
         }
-        
+
         // Catálogo
         if (preg_match('/catálogo|catalogo|ver.*producto|mostrar|todos|lista/u', $input)) {
-            return '📦 <a href="/catalog" style="color:#007bff">Ver catálogo completo</a> - Tenemos ' . $products->count() . '+ productos disponibles.';
+            return '📦 <a href="/catalog" style="color:#007bff">Ver catálogo completo</a> - Tenemos '.$products->count().'+ productos disponibles.';
         }
-        
+
         // Zapatillas
         if (preg_match('/zapatilla|correr|running|tenis|zapato/u', $input)) {
-            $shoe = $products->first(fn($p) => str_contains(mb_strtolower($p->name), 'zapatilla'));
+            $shoe = $products->first(fn ($p) => str_contains(mb_strtolower($p->name), 'zapatilla'));
             if ($shoe) {
                 return "🏃 Te recomiendo: <a href=\"/product/{$shoe->id}\" style=\"color:#007bff\">{$shoe->name}</a> por solo \${$shoe->price}";
             }
+
             return '🏃 Tenemos zapatillas increíbles. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
         }
-        
+
         // Camisetas / Ropa
         if (preg_match('/camiseta|ropa|playera|polo|dispones/u', $input)) {
-            $shirt = $products->first(fn($p) => str_contains(mb_strtolower($p->name), 'camiseta'));
+            $shirt = $products->first(fn ($p) => str_contains(mb_strtolower($p->name), 'camiseta'));
             if ($shirt) {
                 return "👕 Mira esta: <a href=\"/product/{$shirt->id}\" style=\"color:#007bff\">{$shirt->name}</a> - \${$shirt->price}";
             }
+
             return '👕 Tenemos ropa deportiva genial. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
         }
-        
+
         // Sudaderas
         if (preg_match('/sudadera|hoodie|chaqueta|abrigo|frío/u', $input)) {
-            $hoodie = $products->first(fn($p) => str_contains(mb_strtolower($p->name), 'sudadera'));
+            $hoodie = $products->first(fn ($p) => str_contains(mb_strtolower($p->name), 'sudadera'));
             if ($hoodie) {
                 return "🧥 Te encantará: <a href=\"/product/{$hoodie->id}\" style=\"color:#007bff\">{$hoodie->name}</a> - \${$hoodie->price}";
             }
+
             return '🧥 Sudaderas disponibles. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
         }
-        
+
         // Carrito
         if (preg_match('/carrito|cart|compra|pagar|checkout/u', $input)) {
             return '🛒 <a href="/cart" style="color:#007bff">Ve a tu carrito</a> para revisar tus productos y proceder al pago.';
         }
-        
+
         // Login / Cuenta
         if (preg_match('/iniciar|login|sesión|cuenta|registrar/u', $input)) {
             return '👤 <a href="/login" style="color:#007bff">Inicia sesión</a> o <a href="/register" style="color:#007bff">regístrate</a> para comprar.';
         }
-        
+
         // Precios
         if (preg_match('/precio|costo|cuánto|cuanto|vale|barato/u', $input)) {
             $cheapest = $products->sortBy('price')->first();
             if ($cheapest) {
                 return "💰 Desde \${$cheapest->price}. El más barato: <a href=\"/product/{$cheapest->id}\" style=\"color:#007bff\">{$cheapest->name}</a>";
             }
+
             return '💰 Precios desde $29.99. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
         }
-        
+
         // Envío
         if (preg_match('/envío|envio|delivery|entrega|domicilio/u', $input)) {
             return '📦 ¡Envío GRATIS en compras +$50! Entregamos en todo el país en 3-5 días.';
@@ -113,6 +117,7 @@ class FitBotController extends Controller
         if (preg_match('/recomienda|sugieres|mejor|popular/u', $input)) {
             if ($products->count() > 0) {
                 $recommended = $products->random();
+
                 return "⭐ Te recomiendo: <a href=\"/product/{$recommended->id}\" style=\"color:#007bff\">{$recommended->name}</a> - Solo \${$recommended->price}";
             }
         }

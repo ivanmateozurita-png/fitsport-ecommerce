@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\Product;
 use App\Models\Category;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,6 +23,7 @@ class OrderTest extends TestCase
     protected function createProduct(int $stock = 10): Product
     {
         $category = Category::factory()->create();
+
         return Product::factory()->create([
             'category_id' => $category->id,
             'stock' => $stock,
@@ -136,7 +137,7 @@ class OrderTest extends TestCase
     public function test_checkout_redirects_when_cart_empty(): void
     {
         $user = $this->createAuthenticatedUser();
-        
+
         $response = $this->actingAs($user)->get('/checkout');
         $response->assertRedirect(route('cart.index'));
     }
@@ -144,14 +145,14 @@ class OrderTest extends TestCase
     public function test_process_fails_with_empty_cart(): void
     {
         $user = $this->createAuthenticatedUser();
-        
+
         $response = $this->actingAs($user)->post('/checkout/process', [
             'name' => 'Test',
             'email' => $user->email,
             'phone' => '123',
             'address' => 'Dir',
         ]);
-        
+
         $response->assertRedirect(route('cart.index'));
     }
 
@@ -237,7 +238,7 @@ class OrderTest extends TestCase
     public function test_my_orders_shows_user_orders(): void
     {
         $user = $this->createAuthenticatedUser();
-        
+
         Order::factory()->create(['user_id' => $user->id]);
         Order::factory()->create(['user_id' => $user->id]);
 

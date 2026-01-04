@@ -2,14 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
-use Tests\TestCase;
 use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 class AdminProductImageTest extends TestCase
 {
@@ -20,6 +19,7 @@ class AdminProductImageTest extends TestCase
         $role = Role::firstOrCreate(['name' => 'admin']);
         $user = User::factory()->create();
         $user->assignRole('admin');
+
         return $user;
     }
 
@@ -27,9 +27,9 @@ class AdminProductImageTest extends TestCase
     {
         $admin = $this->createAdmin();
         $category = Category::create(['name' => 'Cat', 'slug' => 'cat']);
-        
+
         $file = UploadedFile::fake()->image('product.jpg', 200, 200);
-        
+
         $response = $this->actingAs($admin)->post(route('admin.products.store'), [
             'name' => 'Product With Image',
             'description' => 'Description',
@@ -38,7 +38,7 @@ class AdminProductImageTest extends TestCase
             'category_id' => $category->id,
             'image' => $file,
         ]);
-        
+
         $response->assertRedirect(route('admin.products.index'));
         $this->assertDatabaseHas('products', ['name' => 'Product With Image']);
     }
@@ -54,9 +54,9 @@ class AdminProductImageTest extends TestCase
             'category_id' => $category->id,
             'image_path' => 'assets/uploads/products/old.jpg',
         ]);
-        
+
         $file = UploadedFile::fake()->image('new_product.jpg', 200, 200);
-        
+
         $response = $this->actingAs($admin)->put(route('admin.products.update', $product->id), [
             'name' => 'Updated Product',
             'price' => 75,
@@ -64,7 +64,7 @@ class AdminProductImageTest extends TestCase
             'category_id' => $category->id,
             'image' => $file,
         ]);
-        
+
         $response->assertRedirect(route('admin.products.index'));
         $this->assertDatabaseHas('products', ['name' => 'Updated Product']);
     }
@@ -80,14 +80,14 @@ class AdminProductImageTest extends TestCase
             'category_id' => $category->id,
             'image_path' => 't.jpg',
         ]);
-        
+
         $response = $this->actingAs($admin)->put(route('admin.products.update', $product->id), [
             'name' => 'Updated Name Only',
             'price' => 55,
             'stock' => 10,
             'category_id' => $category->id,
         ]);
-        
+
         $response->assertRedirect(route('admin.products.index'));
         $this->assertDatabaseHas('products', ['name' => 'Updated Name Only']);
     }
@@ -103,9 +103,9 @@ class AdminProductImageTest extends TestCase
             'category_id' => $category->id,
             'image_path' => 'assets/uploads/products/old_image.jpg',
         ]);
-        
+
         $file = UploadedFile::fake()->image('new_image.jpg', 100, 100);
-        
+
         $response = $this->actingAs($admin)->put(route('admin.products.update', $product->id), [
             'name' => 'Product With New Image',
             'price' => 60,
@@ -113,7 +113,7 @@ class AdminProductImageTest extends TestCase
             'category_id' => $category->id,
             'image' => $file,
         ]);
-        
+
         $response->assertRedirect(route('admin.products.index'));
     }
 }

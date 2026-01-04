@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +17,7 @@ class OrderController extends Controller
     {
         // verificar si el carrito esta vacio
         $cart = session()->get('cart', []);
-        
+
         if (count($cart) <= 0) {
             return redirect()->route('cart.index')->with('error', 'tu carrito esta vacio');
         }
@@ -26,7 +26,7 @@ class OrderController extends Controller
         foreach ($cart as $item) {
             $subtotal += $item['price'] * $item['quantity'];
         }
-        
+
         // Calcular IVA 15%
         $iva = $subtotal * 0.15;
         $total = $subtotal + $iva;
@@ -35,7 +35,7 @@ class OrderController extends Controller
     }
 
     /**
-     * procesa el pedido 
+     * procesa el pedido
      */
     public function process(Request $request)
     {
@@ -44,11 +44,11 @@ class OrderController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'nullable|string|max:20',
-            'address' => 'required|string|max:500'
+            'address' => 'required|string|max:500',
         ]);
 
         $cart = session()->get('cart', []);
-        
+
         if (empty($cart)) {
             return redirect()->route('cart.index')->with('error', 'tu carrito esta vacio');
         }
@@ -60,17 +60,17 @@ class OrderController extends Controller
             $subtotal = 0;
             foreach ($cart as $item) {
                 $subtotal += $item['price'] * $item['quantity'];
-                
+
                 // validar producto y stock
                 $product = \App\Models\Product::find($item['id']);
-                if (!$product) {
+                if (! $product) {
                     throw new \Exception("el producto {$item['name']} ya no existe");
                 }
                 if ($product->stock < $item['quantity']) {
                     throw new \Exception("stock insuficiente para {$item['name']} solo quedan {$product->stock} unidades");
                 }
             }
-            
+
             // Calcular IVA 15% y total
             $iva = $subtotal * 0.15;
             $total = $subtotal + $iva;
@@ -80,7 +80,7 @@ class OrderController extends Controller
                 'user_id' => Auth::id(),
                 'total' => $total,
                 'status' => 'pending', // por defecto pendiente hasta pago real
-                'date' => now()
+                'date' => now(),
             ]);
 
             // crear items y actualizar stock
@@ -90,7 +90,7 @@ class OrderController extends Controller
                     'product_id' => $item['id'],
                     'quantity' => $item['quantity'],
                     'unit_price' => $item['price'],
-                    'size' => $item['size'] ?? null
+                    'size' => $item['size'] ?? null,
                 ]);
 
                 // descontar stock
@@ -104,11 +104,12 @@ class OrderController extends Controller
             DB::commit();
 
             return redirect()->route('order.confirmation', $order->id)
-                           ->with('success', 'pedido realizado exitosamente');
+                ->with('success', 'pedido realizado exitosamente');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'error al procesar el pedido ' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'error al procesar el pedido '.$e->getMessage());
         }
     }
 
@@ -119,9 +120,9 @@ class OrderController extends Controller
     {
         // obtener pedidos del usuario autenticado ordenados por fecha
         $orders = Order::where('user_id', Auth::id())
-                       ->orderBy('date', 'desc')
-                       ->with('items') // cargar items para conteo
-                       ->get();
+            ->orderBy('date', 'desc')
+            ->with('items') // cargar items para conteo
+            ->get();
 
         return view('shop.my-orders', compact('orders'));
     }
@@ -133,9 +134,9 @@ class OrderController extends Controller
     {
         // buscar pedido y verificar que pertenezca al usuario
         $order = Order::where('id', $id)
-                      ->where('user_id', Auth::id())
-                      ->with('items.product') // cargar relaciones
-                      ->firstOrFail();
+            ->where('user_id', Auth::id())
+            ->with('items.product') // cargar relaciones
+            ->firstOrFail();
 
         return view('shop.order-confirmation', compact('order'));
     }

@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use App\Models\Profile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -21,7 +20,7 @@ class RegisterControllerTest extends TestCase
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
         ]);
-        
+
         $response->assertRedirect(route('home'));
         $this->assertDatabaseHas('users', ['email' => 'testuser@gmail.com']);
         $this->assertDatabaseHas('profiles', ['phone' => '0991234567']);
@@ -35,7 +34,7 @@ class RegisterControllerTest extends TestCase
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
         ]);
-        
+
         $response->assertSessionHasErrors('email');
     }
 
@@ -47,7 +46,7 @@ class RegisterControllerTest extends TestCase
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
         ]);
-        
+
         $response->assertSessionHasErrors('email');
     }
 
@@ -59,7 +58,7 @@ class RegisterControllerTest extends TestCase
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
         ]);
-        
+
         $response->assertSessionHasErrors('email');
     }
 
@@ -71,7 +70,7 @@ class RegisterControllerTest extends TestCase
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
         ]);
-        
+
         $response->assertSessionHasErrors('email');
     }
 
@@ -83,7 +82,7 @@ class RegisterControllerTest extends TestCase
             'password' => 'Password123!',
             'password_confirmation' => 'WrongPassword!',
         ]);
-        
+
         $response->assertSessionHasErrors('password');
     }
 
@@ -95,7 +94,7 @@ class RegisterControllerTest extends TestCase
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
         ]);
-        
+
         $response->assertSessionHasErrors('email');
     }
 
@@ -107,7 +106,7 @@ class RegisterControllerTest extends TestCase
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
         ]);
-        
+
         $user = User::where('email', 'client@gmail.com')->first();
         $this->assertNotNull($user);
         $this->assertEquals('client', $user->profile->role);

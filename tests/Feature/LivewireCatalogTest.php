@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Product;
-use App\Models\Category;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Livewire\Livewire;
 use App\Livewire\CatalogSearch;
+use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+use Tests\TestCase;
 
 class LivewireCatalogTest extends TestCase
 {
@@ -16,12 +16,12 @@ class LivewireCatalogTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->category = Category::create([
             'name' => 'Deportes',
             'slug' => 'deportes',
         ]);
-        
+
         Product::create([
             'name' => 'Camiseta Barata',
             'price' => 19.99,
@@ -29,7 +29,7 @@ class LivewireCatalogTest extends TestCase
             'category_id' => $this->category->id,
             'image_path' => 'test.jpg',
         ]);
-        
+
         Product::create([
             'name' => 'Camiseta Cara',
             'price' => 99.99,
@@ -92,13 +92,13 @@ class LivewireCatalogTest extends TestCase
             'name' => 'Ropa',
             'slug' => 'ropa',
         ]);
-        
+
         $child = Category::create([
             'name' => 'Camisetas',
             'slug' => 'camisetas',
             'parent_id' => $parent->id,
         ]);
-        
+
         Product::create([
             'name' => 'Camiseta Subcategoria',
             'price' => 15.99,
@@ -106,7 +106,7 @@ class LivewireCatalogTest extends TestCase
             'category_id' => $child->id,
             'image_path' => 'test3.jpg',
         ]);
-        
+
         Livewire::test(CatalogSearch::class)
             ->call('filterByCategory', $child->id)
             ->assertStatus(200);
@@ -118,13 +118,13 @@ class LivewireCatalogTest extends TestCase
             'name' => 'Calzado',
             'slug' => 'calzado',
         ]);
-        
+
         $child = Category::create([
             'name' => 'Zapatillas',
             'slug' => 'zapatillas',
             'parent_id' => $parent->id,
         ]);
-        
+
         Product::create([
             'name' => 'Zapatilla Running',
             'price' => 89.99,
@@ -132,7 +132,7 @@ class LivewireCatalogTest extends TestCase
             'category_id' => $child->id,
             'image_path' => 'test4.jpg',
         ]);
-        
+
         Livewire::test(CatalogSearch::class)
             ->call('filterByCategory', $parent->id)
             ->assertStatus(200);

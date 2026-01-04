@@ -14,6 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::with('parent', 'children')->get();
+
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -23,6 +24,7 @@ class CategoryController extends Controller
     public function create()
     {
         $parentCategories = Category::whereNull('parent_id')->get();
+
         return view('admin.categories.create', compact('parentCategories'));
     }
 
@@ -35,14 +37,14 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:categories,id',
-            'active' => 'boolean'
+            'active' => 'boolean',
         ]);
 
         Category::create([
             'name' => $request->name,
             'description' => $request->description,
             'parent_id' => $request->parent_id,
-            'active' => $request->has('active') ? 1 : 0
+            'active' => $request->has('active') ? 1 : 0,
         ]);
 
         return redirect()->route('admin.categories.index')
@@ -58,6 +60,7 @@ class CategoryController extends Controller
         $parentCategories = Category::whereNull('parent_id')
             ->where('id', '!=', $id)
             ->get();
+
         return view('admin.categories.edit', compact('category', 'parentCategories'));
     }
 
@@ -70,7 +73,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:categories,id',
-            'active' => 'boolean'
+            'active' => 'boolean',
         ]);
 
         $category = Category::findOrFail($id);
@@ -78,7 +81,7 @@ class CategoryController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'parent_id' => $request->parent_id,
-            'active' => $request->has('active') ? 1 : 0
+            'active' => $request->has('active') ? 1 : 0,
         ]);
 
         return redirect()->route('admin.categories.index')
@@ -91,7 +94,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        
+
         // Verificar si tiene productos asociados
         if ($category->products()->count() > 0) {
             return redirect()->route('admin.categories.index')

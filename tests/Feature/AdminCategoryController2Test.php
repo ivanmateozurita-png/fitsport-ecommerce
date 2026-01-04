@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 class AdminCategoryController2Test extends TestCase
 {
@@ -17,6 +17,7 @@ class AdminCategoryController2Test extends TestCase
         $role = Role::firstOrCreate(['name' => 'admin']);
         $user = User::factory()->create();
         $user->assignRole('admin');
+
         return $user;
     }
 
@@ -31,7 +32,7 @@ class AdminCategoryController2Test extends TestCase
     {
         $admin = $this->createAdmin();
         $category = Category::create(['name' => 'Test', 'slug' => 'test']);
-        
+
         $response = $this->actingAs($admin)->get(route('admin.categories.edit', $category->id));
         $response->assertStatus(200);
     }
@@ -40,11 +41,11 @@ class AdminCategoryController2Test extends TestCase
     {
         $admin = $this->createAdmin();
         $category = Category::create(['name' => 'Old', 'slug' => 'old']);
-        
+
         $response = $this->actingAs($admin)->put(route('admin.categories.update', $category->id), [
             'name' => 'Updated',
         ]);
-        
+
         $response->assertRedirect(route('admin.categories.index'));
         $this->assertDatabaseHas('categories', ['name' => 'Updated']);
     }
@@ -53,12 +54,12 @@ class AdminCategoryController2Test extends TestCase
     {
         $admin = $this->createAdmin();
         $parent = Category::create(['name' => 'Parent', 'slug' => 'parent']);
-        
+
         $response = $this->actingAs($admin)->post(route('admin.categories.store'), [
             'name' => 'Child',
             'parent_id' => $parent->id,
         ]);
-        
+
         $response->assertRedirect(route('admin.categories.index'));
         $this->assertDatabaseHas('categories', [
             'name' => 'Child',

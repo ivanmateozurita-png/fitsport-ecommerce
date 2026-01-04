@@ -15,6 +15,7 @@ class OrderController extends Controller
     {
         // obtengo los pedidos ordenados por fecha descendente paginados
         $orders = Order::with('user')->orderBy('date', 'desc')->paginate(10);
+
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -25,6 +26,7 @@ class OrderController extends Controller
     {
         // cargo el pedido con su usuario y los items productos
         $order = Order::with(['user', 'items.product'])->findOrFail($id);
+
         return view('admin.orders.show', compact('order'));
     }
 
@@ -34,7 +36,7 @@ class OrderController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:pending,shipped,delivered,cancelled'
+            'status' => 'required|in:pending,shipped,delivered,cancelled',
         ]);
 
         $order = Order::findOrFail($id);
@@ -50,7 +52,7 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $order = Order::findOrFail($id);
-        
+
         $order->delete();
 
         return redirect()->route('admin.orders.index')->with('success', 'pedido eliminado correctamente');

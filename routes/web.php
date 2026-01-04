@@ -1,19 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CatalogController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CartController; 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
-use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Route;
 
 // Rutas de autenticación con Google
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
@@ -22,13 +20,14 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 // RUTA TEMPORAL - EJECUTAR UNA VEZ Y ELIMINAR
 Route::get('/storage-link', function () {
     \Artisan::call('storage:link');
+
     return '✅ Storage link creado! <a href="/">Ir al inicio</a>';
 });
 
-// ruta principal 
+// ruta principal
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// rutas del catalogo 
+// rutas del catalogo
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 
@@ -65,10 +64,9 @@ Route::middleware(['auth'])->group(function () {
 // rutas de autenticación (archivo separado)
 require __DIR__.'/auth.php';
 
-
 // rutas del panel de administracion (admin y bodeguero)
 Route::prefix('admin')->middleware(['auth', 'role:admin|bodeguero'])->group(function () {
-    
+
     // dashboard - accesible para admin y bodeguero
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
@@ -89,7 +87,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin|bodeguero'])->group(func
 
 // rutas exclusivas para administradores
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
-    
+
     // rutas de usuarios - SOLO ADMIN
     Route::resource('users', AdminUserController::class)->names('admin.users');
 

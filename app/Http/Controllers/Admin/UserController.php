@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -15,6 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with(['profile', 'roles'])->paginate(10);
+
         return view('admin.users.index', compact('users'));
     }
 
@@ -22,6 +23,7 @@ class UserController extends Controller
     {
         $user = User::with(['profile', 'roles'])->findOrFail($id);
         $roles = Role::all();
+
         return view('admin.users.edit', compact('user', 'roles'));
     }
 
@@ -32,7 +34,7 @@ class UserController extends Controller
         ]);
 
         $user = User::findOrFail($id);
-        
+
         // Usar Spatie Permission - syncRoles reemplaza todos los roles
         $user->syncRoles([$request->role]);
 
@@ -43,6 +45,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
+
         return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado correctamente.');
     }
 }

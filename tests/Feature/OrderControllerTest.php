@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Category;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,6 +23,7 @@ class OrderControllerTest extends TestCase
     protected function createProduct(int $stock = 10): Product
     {
         $category = Category::create(['name' => 'Cat', 'slug' => 'cat']);
+
         return Product::create([
             'name' => 'Test Product',
             'price' => 99.99,

@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -16,6 +15,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->paginate(10);
+
         return view('admin.products.index', compact('products'));
     }
 
@@ -25,6 +25,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
+
         return view('admin.products.create', compact('categories'));
     }
 
@@ -41,16 +42,16 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'size' => 'nullable|string',
             'color' => 'nullable|string',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $data = $request->except('image');
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = time().'_'.$file->getClientOriginalName();
             $file->move(public_path('assets/uploads/products'), $filename);
-            $data['image_path'] = 'assets/uploads/products/' . $filename;
+            $data['image_path'] = 'assets/uploads/products/'.$filename;
         }
 
         Product::create($data);
@@ -65,6 +66,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $categories = Category::all();
+
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
@@ -83,23 +85,23 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'size' => 'nullable|string',
             'color' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $data = $request->except('image');
 
         if ($request->hasFile('image')) {
             if ($product->image_path && strpos($product->image_path, 'assets/uploads') !== false) {
-                 $oldPath = public_path($product->image_path);
-                 if (file_exists($oldPath)) {
-                     @unlink($oldPath);
-                 }
+                $oldPath = public_path($product->image_path);
+                if (file_exists($oldPath)) {
+                    @unlink($oldPath);
+                }
             }
 
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = time().'_'.$file->getClientOriginalName();
             $file->move(public_path('assets/uploads/products'), $filename);
-            $data['image_path'] = 'assets/uploads/products/' . $filename;
+            $data['image_path'] = 'assets/uploads/products/'.$filename;
         }
 
         $product->update($data);
@@ -113,14 +115,14 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-        
+
         if ($product->image_path && strpos($product->image_path, 'assets/uploads') !== false) {
-             $oldPath = public_path($product->image_path);
-             if (file_exists($oldPath)) {
-                 @unlink($oldPath);
-             }
+            $oldPath = public_path($product->image_path);
+            if (file_exists($oldPath)) {
+                @unlink($oldPath);
+            }
         }
-        
+
         $product->delete();
 
         return redirect()->route('admin.products.index')->with('success', 'producto eliminado exitosamente');

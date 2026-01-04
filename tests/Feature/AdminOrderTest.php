@@ -2,14 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\Category;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 class AdminOrderTest extends TestCase
 {
@@ -20,6 +20,7 @@ class AdminOrderTest extends TestCase
         $role = Role::firstOrCreate(['name' => 'admin']);
         $user = User::factory()->create();
         $user->assignRole('admin');
+
         return $user;
     }
 
@@ -56,7 +57,7 @@ class AdminOrderTest extends TestCase
     {
         $admin = $this->createAdmin();
         $order = $this->createOrderWithItems();
-        
+
         $response = $this->actingAs($admin)->get(route('admin.orders.show', $order->id));
         $response->assertStatus(200);
     }
@@ -65,11 +66,11 @@ class AdminOrderTest extends TestCase
     {
         $admin = $this->createAdmin();
         $order = $this->createOrderWithItems();
-        
+
         $response = $this->actingAs($admin)->put(route('admin.orders.updateStatus', $order->id), [
             'status' => 'shipped',
         ]);
-        
+
         $response->assertRedirect();
         $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'shipped']);
     }
@@ -78,11 +79,11 @@ class AdminOrderTest extends TestCase
     {
         $admin = $this->createAdmin();
         $order = $this->createOrderWithItems();
-        
+
         $response = $this->actingAs($admin)->put(route('admin.orders.updateStatus', $order->id), [
             'status' => 'delivered',
         ]);
-        
+
         $response->assertRedirect();
         $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'delivered']);
     }
@@ -91,11 +92,11 @@ class AdminOrderTest extends TestCase
     {
         $admin = $this->createAdmin();
         $order = $this->createOrderWithItems();
-        
+
         $response = $this->actingAs($admin)->put(route('admin.orders.updateStatus', $order->id), [
             'status' => 'cancelled',
         ]);
-        
+
         $response->assertRedirect();
         $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'cancelled']);
     }
@@ -104,11 +105,11 @@ class AdminOrderTest extends TestCase
     {
         $admin = $this->createAdmin();
         $order = $this->createOrderWithItems();
-        
+
         $response = $this->actingAs($admin)->put(route('admin.orders.updateStatus', $order->id), [
             'status' => 'invalid_status',
         ]);
-        
+
         $response->assertSessionHasErrors('status');
     }
 
@@ -117,9 +118,9 @@ class AdminOrderTest extends TestCase
         $admin = $this->createAdmin();
         $order = $this->createOrderWithItems();
         $orderId = $order->id;
-        
+
         $response = $this->actingAs($admin)->delete(route('admin.orders.destroy', $orderId));
-        
+
         $response->assertRedirect(route('admin.orders.index'));
         $this->assertDatabaseMissing('orders', ['id' => $orderId]);
     }
@@ -128,7 +129,7 @@ class AdminOrderTest extends TestCase
     {
         $admin = $this->createAdmin();
         $order = $this->createOrderWithItems();
-        
+
         $response = $this->actingAs($admin)->get(route('admin.orders.show', $order->id));
         $response->assertStatus(200);
         $response->assertSee('Prod');

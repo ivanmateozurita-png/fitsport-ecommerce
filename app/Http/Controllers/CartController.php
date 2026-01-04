@@ -12,10 +12,10 @@ class CartController extends Controller
      */
     public function index()
     {
-        $this->normalizeCart(); 
+        $this->normalizeCart();
         $cart = session()->get('cart', []);
         $total = $this->calculateTotal($cart);
-        
+
         return view('shop.cart', compact('cart', 'total'));
     }
 
@@ -30,10 +30,10 @@ class CartController extends Controller
             $quantity = $request->input('quantity', 1);
             $size = $request->input('size'); // Get size
 
-            if (!$productId) {
+            if (! $productId) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'se requiere el id del producto'
+                    'message' => 'se requiere el id del producto',
                 ], 400);
             }
             $productId = $request->product_id;
@@ -44,7 +44,7 @@ class CartController extends Controller
 
             // Validación de stock
             $cart = session()->get('cart', []);
-            
+
             // Calculate current quantity in cart for this product
             $currentQty = 0;
             if (isset($cart[$productId])) {
@@ -54,11 +54,11 @@ class CartController extends Controller
             if ($product->stock < ($currentQty + $quantity)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Stock insuficiente. Solo hay ' . $product->stock . ' unidades disponibles.'
+                    'message' => 'Stock insuficiente. Solo hay '.$product->stock.' unidades disponibles.',
                 ], 400);
             }
 
-            if (!$cart) {
+            if (! $cart) {
                 $cart = [];
             }
 
@@ -72,7 +72,7 @@ class CartController extends Controller
                     'price' => $product->price,
                     'quantity' => $quantity,
                     'image_path' => $product->image_path,
-                    'size' => $size
+                    'size' => $size,
                 ];
             }
 
@@ -82,13 +82,13 @@ class CartController extends Controller
                 'success' => true,
                 'message' => 'producto agregado al carrito exitosamente',
                 'cart_count' => $this->getCartCount(),
-                'cart_total' => $this->calculateTotal($cart)
+                'cart_total' => $this->calculateTotal($cart),
             ]);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'error ' . $e->getMessage()
+                'message' => 'error '.$e->getMessage(),
             ], 500);
         }
     }
@@ -99,23 +99,24 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'quantity' => 'required|integer|min:1'
+            'quantity' => 'required|integer|min:1',
         ]);
 
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
             $product = Product::find($cart[$id]['id']);
-            
+
             // validar stock
             if ($product && $product->stock < $request->quantity) {
                 if ($request->ajax()) {
                     return response()->json([
                         'success' => false,
-                        'message' => "stock insuficiente solo quedan {$product->stock} unidades"
+                        'message' => "stock insuficiente solo quedan {$product->stock} unidades",
                     ], 400);
                 }
-                return redirect()->back()->with('error', "stock insuficiente");
+
+                return redirect()->back()->with('error', 'stock insuficiente');
             }
 
             $cart[$id]['quantity'] = $request->quantity;
@@ -127,7 +128,7 @@ class CartController extends Controller
                     'message' => 'cantidad actualizada',
                     'cart_count' => $this->getCartCount(),
                     'cart_total' => $this->calculateTotal($cart),
-                    'item_subtotal' => $cart[$id]['price'] * $cart[$id]['quantity']
+                    'item_subtotal' => $cart[$id]['price'] * $cart[$id]['quantity'],
                 ]);
             }
         }
@@ -152,7 +153,7 @@ class CartController extends Controller
                 'success' => true,
                 'message' => 'producto eliminado',
                 'cart_count' => $this->getCartCount(),
-                'cart_total' => $this->calculateTotal($cart)
+                'cart_total' => $this->calculateTotal($cart),
             ]);
         }
 
@@ -169,7 +170,7 @@ class CartController extends Controller
         if (request()->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'carrito vaciado'
+                'message' => 'carrito vaciado',
             ]);
         }
 
@@ -182,7 +183,7 @@ class CartController extends Controller
     public function count()
     {
         return response()->json([
-            'count' => $this->getCartCount()
+            'count' => $this->getCartCount(),
         ]);
     }
 
@@ -190,8 +191,9 @@ class CartController extends Controller
 
     private function getCartCount()
     {
-        $this->normalizeCart(); 
+        $this->normalizeCart();
         $cart = session()->get('cart', []);
+
         return array_sum(array_column($cart, 'quantity'));
     }
 
@@ -200,9 +202,10 @@ class CartController extends Controller
         $total = 0;
         foreach ($cart as $item) {
             $price = $item['price'] ?? 0;
-            $qty = $item['quantity'] ?? 0; 
+            $qty = $item['quantity'] ?? 0;
             $total += $price * $qty;
         }
+
         return $total;
     }
 
@@ -215,16 +218,16 @@ class CartController extends Controller
         $updated = false;
 
         foreach ($cart as $key => $item) {
-            if (!isset($item['price']) && isset($item['precio'])) {
+            if (! isset($item['price']) && isset($item['precio'])) {
                 $cart[$key]['price'] = $item['precio'];
                 $cart[$key]['name'] = $item['nombre'];
                 $cart[$key]['quantity'] = $item['cantidad'];
                 $cart[$key]['image_path'] = $item['imagen_url'] ?? '';
                 $updated = true;
             }
-            if (!isset($item['id'])) {
-                 $cart[$key]['id'] = $item['id_producto'] ?? $key;
-                 $updated = true;
+            if (! isset($item['id'])) {
+                $cart[$key]['id'] = $item['id_producto'] ?? $key;
+                $updated = true;
             }
         }
 

@@ -13,7 +13,7 @@ class Category extends Model
         'name',
         'description',
         'active',
-        'parent_id'
+        'parent_id',
     ];
 
     public function parent()

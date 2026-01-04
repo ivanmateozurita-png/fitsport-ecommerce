@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Product;
-use App\Models\Category;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Livewire\Livewire;
 use App\Livewire\ProductSearch;
+use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+use Tests\TestCase;
 
 class LivewireProductSearchTest extends TestCase
 {
@@ -16,12 +16,12 @@ class LivewireProductSearchTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $category = Category::create([
             'name' => 'Deportes',
             'slug' => 'deportes',
         ]);
-        
+
         Product::create([
             'name' => 'Camiseta Deportiva',
             'description' => 'Camiseta para ejercicio',
@@ -30,7 +30,7 @@ class LivewireProductSearchTest extends TestCase
             'category_id' => $category->id,
             'image_path' => 'test.jpg',
         ]);
-        
+
         Product::create([
             'name' => 'Pantalon Running',
             'description' => 'Pantalon para correr',
@@ -71,7 +71,7 @@ class LivewireProductSearchTest extends TestCase
     public function test_search_limits_results_to_5(): void
     {
         $category = Category::first();
-        
+
         for ($i = 0; $i < 10; $i++) {
             Product::create([
                 'name' => "Producto $i",
@@ -81,7 +81,7 @@ class LivewireProductSearchTest extends TestCase
                 'image_path' => 'test.jpg',
             ]);
         }
-        
+
         Livewire::test(ProductSearch::class)
             ->set('search', 'Producto')
             ->assertStatus(200);

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 class AdminCategoryFullTest extends TestCase
 {
@@ -17,18 +17,19 @@ class AdminCategoryFullTest extends TestCase
         $role = Role::firstOrCreate(['name' => 'admin']);
         $user = User::factory()->create();
         $user->assignRole('admin');
+
         return $user;
     }
 
     public function test_admin_can_create_category_with_description(): void
     {
         $admin = $this->createAdmin();
-        
+
         $response = $this->actingAs($admin)->post(route('admin.categories.store'), [
             'name' => 'With Description',
             'description' => 'Esta es una descripcion detallada de la categoria',
         ]);
-        
+
         $response->assertRedirect(route('admin.categories.index'));
         $this->assertDatabaseHas('categories', [
             'name' => 'With Description',
@@ -40,12 +41,12 @@ class AdminCategoryFullTest extends TestCase
     {
         $admin = $this->createAdmin();
         $category = Category::create(['name' => 'Old', 'slug' => 'old']);
-        
+
         $response = $this->actingAs($admin)->put(route('admin.categories.update', $category->id), [
             'name' => 'Updated',
             'description' => 'Nueva descripcion',
         ]);
-        
+
         $response->assertRedirect(route('admin.categories.index'));
         $this->assertDatabaseHas('categories', [
             'name' => 'Updated',
@@ -57,12 +58,12 @@ class AdminCategoryFullTest extends TestCase
     {
         $admin = $this->createAdmin();
         $category = Category::create(['name' => 'Inactive', 'slug' => 'inactive', 'active' => 0]);
-        
+
         $response = $this->actingAs($admin)->put(route('admin.categories.update', $category->id), [
             'name' => 'Now Active',
             'active' => 1,
         ]);
-        
+
         $response->assertRedirect(route('admin.categories.index'));
         $this->assertDatabaseHas('categories', ['name' => 'Now Active', 'active' => 1]);
     }
@@ -72,9 +73,9 @@ class AdminCategoryFullTest extends TestCase
         $admin = $this->createAdmin();
         $category = Category::create(['name' => 'ToDelete', 'slug' => 'todelete']);
         $id = $category->id;
-        
+
         $response = $this->actingAs($admin)->delete(route('admin.categories.destroy', $id));
-        
+
         $response->assertRedirect(route('admin.categories.index'));
         $this->assertDatabaseMissing('categories', ['id' => $id]);
     }
@@ -84,12 +85,12 @@ class AdminCategoryFullTest extends TestCase
         $admin = $this->createAdmin();
         $parent = Category::create(['name' => 'ParentCat', 'slug' => 'parentcat']);
         $child = Category::create(['name' => 'ChildCat', 'slug' => 'childcat']);
-        
+
         $response = $this->actingAs($admin)->put(route('admin.categories.update', $child->id), [
             'name' => 'ChildCat',
             'parent_id' => $parent->id,
         ]);
-        
+
         $response->assertRedirect(route('admin.categories.index'));
         $this->assertDatabaseHas('categories', ['name' => 'ChildCat', 'parent_id' => $parent->id]);
     }

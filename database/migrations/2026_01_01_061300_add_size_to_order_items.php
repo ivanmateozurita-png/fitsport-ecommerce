@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasColumn('order_items', 'size')) {
+        if (! Schema::hasColumn('order_items', 'size')) {
             Schema::table('order_items', function (Blueprint $table) {
                 $table->string('size', 50)->nullable()->after('unit_price');
             });

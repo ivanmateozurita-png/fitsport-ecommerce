@@ -17,7 +17,7 @@ class UserTest extends TestCase
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-        
+
         $this->assertDatabaseHas('users', ['email' => 'test@example.com']);
     }
 
@@ -26,51 +26,51 @@ class UserTest extends TestCase
         $user = User::factory()->create([
             'password' => Hash::make('password123'),
         ]);
-        
+
         $this->assertTrue(Hash::check('password123', $user->password));
     }
 
     public function test_user_has_orders_relationship(): void
     {
         $user = User::factory()->create();
-        
+
         \App\Models\Order::create([
             'user_id' => $user->id,
             'total' => 100,
             'status' => 'pending',
         ]);
-        
+
         $this->assertCount(1, $user->orders);
     }
 
     public function test_user_has_profile_relationship(): void
     {
         $user = User::factory()->create();
-        
+
         \App\Models\Profile::create([
             'user_id' => $user->id,
             'role' => 'client',
         ]);
-        
+
         $this->assertNotNull($user->profile);
     }
 
     public function test_user_can_have_multiple_orders(): void
     {
         $user = User::factory()->create();
-        
+
         \App\Models\Order::create([
             'user_id' => $user->id,
             'total' => 50,
             'status' => 'pending',
         ]);
-        
+
         \App\Models\Order::create([
             'user_id' => $user->id,
             'total' => 75,
             'status' => 'delivered',
         ]);
-        
+
         $this->assertCount(2, $user->orders);
     }
 
@@ -79,14 +79,14 @@ class UserTest extends TestCase
         $user = User::factory()->create([
             'email_verified_at' => now(),
         ]);
-        
+
         $this->assertTrue($user->hasVerifiedEmail());
     }
 
     public function test_unverified_user(): void
     {
         $user = User::factory()->unverified()->create();
-        
+
         $this->assertFalse($user->hasVerifiedEmail());
     }
 }

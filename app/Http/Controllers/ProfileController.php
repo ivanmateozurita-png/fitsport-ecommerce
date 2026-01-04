@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Profile;
 
 class ProfileController extends Controller
 {
-
     /**
      * Mostrar perfil del usuario
      */
@@ -17,15 +15,15 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $profile = $user->profile;
-        
+
         // Crear perfil si no existe
-        if (!$profile) {
+        if (! $profile) {
             $profile = Profile::create([
                 'user_id' => $user->id,
-                'role' => 'client'
+                'role' => 'client',
             ]);
         }
-        
+
         return view('profile.show', compact('user', 'profile'));
     }
 
@@ -36,14 +34,14 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $profile = $user->profile;
-        
-        if (!$profile) {
+
+        if (! $profile) {
             $profile = Profile::create([
                 'user_id' => $user->id,
-                'role' => 'client'
+                'role' => 'client',
             ]);
         }
-        
+
         return view('profile.edit', compact('user', 'profile'));
     }
 
@@ -57,7 +55,7 @@ class ProfileController extends Controller
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:100',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $user = Auth::user();
@@ -65,9 +63,9 @@ class ProfileController extends Controller
         $user->save();
 
         $profile = $user->profile;
-        
-        if (!$profile) {
-            $profile = new Profile();
+
+        if (! $profile) {
+            $profile = new Profile;
             $profile->user_id = $user->id;
             $profile->role = 'client';
         }
@@ -81,13 +79,13 @@ class ProfileController extends Controller
             // Eliminar imagen anterior si existe
             if ($profile->image_path) {
                 $oldImagePath = $profile->image_path;
-                
+
                 // Intentar eliminar en diferentes ubicaciones posibles
                 $possiblePaths = [
-                    public_path('storage/' . $oldImagePath),
-                    base_path('../public_html/storage/' . $oldImagePath)
+                    public_path('storage/'.$oldImagePath),
+                    base_path('../public_html/storage/'.$oldImagePath),
                 ];
-                
+
                 foreach ($possiblePaths as $oldPath) {
                     if (file_exists($oldPath)) {
                         @unlink($oldPath);
@@ -95,30 +93,30 @@ class ProfileController extends Controller
                     }
                 }
             }
-            
+
             $file = $request->file('image');
-            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-            
+            $filename = uniqid().'.'.$file->getClientOriginalExtension();
+
             // Determinar ruta según entorno
             if (app()->environment('production') && file_exists(base_path('../public_html'))) {
                 // Producción (Hostinger)
                 $storageBase = base_path('../public_html/storage');
-                $destinationPath = $storageBase . '/profiles';
+                $destinationPath = $storageBase.'/profiles';
             } else {
                 // Local (Laragon)
                 $storageBase = public_path('storage');
-                $destinationPath = $storageBase . '/profiles';
+                $destinationPath = $storageBase.'/profiles';
             }
-            
+
             // Crear directorios recursivamente si no existen
-            if (!is_dir($destinationPath)) {
-                if (!mkdir($destinationPath, 0755, true) && !is_dir($destinationPath)) {
+            if (! is_dir($destinationPath)) {
+                if (! mkdir($destinationPath, 0755, true) && ! is_dir($destinationPath)) {
                     throw new \RuntimeException(sprintf('Directory "%s" was not created', $destinationPath));
                 }
             }
-            
+
             $file->move($destinationPath, $filename);
-            $profile->image_path = 'profiles/' . $filename;
+            $profile->image_path = 'profiles/'.$filename;
         }
 
         $profile->save();

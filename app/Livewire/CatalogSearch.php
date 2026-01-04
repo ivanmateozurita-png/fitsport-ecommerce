@@ -2,18 +2,21 @@
 
 namespace App\Livewire;
 
+use App\Models\Category;
+use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Product;
-use App\Models\Category;
 
 class CatalogSearch extends Component
 {
     use WithPagination;
 
     public $search = '';
+
     public $categoryId = null;
+
     public $sortBy = 'default';
+
     protected $paginationTheme = 'bootstrap';
 
     protected $queryString = ['search' => ['as' => 'q'], 'categoryId' => ['as' => 'category_id']];
@@ -27,12 +30,12 @@ class CatalogSearch extends Component
     public function render()
     {
         $query = Product::with('category');
-        
+
         // Búsqueda en tiempo real
         if (strlen($this->search) >= 2) {
-            $query->where(function($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('description', 'like', '%' . $this->search . '%');
+            $query->where(function ($q) {
+                $q->where('name', 'like', '%'.$this->search.'%')
+                    ->orWhere('description', 'like', '%'.$this->search.'%');
             });
         }
 
@@ -64,7 +67,7 @@ class CatalogSearch extends Component
 
         return view('livewire.catalog-search', [
             'products' => $products,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 

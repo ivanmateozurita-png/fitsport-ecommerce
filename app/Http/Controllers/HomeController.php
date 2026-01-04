@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Product; 
-use App\Models\Category; 
+use App\Models\Category;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
@@ -14,7 +13,7 @@ class HomeController extends Controller
         try {
             // products
             $products = Product::with('category')->take(4)->get();
-            
+
             // categories
             $categories = Category::all();
         } catch (\Exception $e) {
