@@ -37,6 +37,7 @@ class FitBotController extends Controller
             'respuesta' => '¡Gracias por visitar Fitsport! 🙌 <a href="/catalog" style="color:#007bff">Sigue explorando</a>',
         ],
     ];
+
     /**
      * Procesar mensaje del chatbot
      */
