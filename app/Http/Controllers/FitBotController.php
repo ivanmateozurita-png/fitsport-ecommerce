@@ -69,19 +69,15 @@ class FitBotController extends Controller
         $input = preg_replace('/\bx\b/', 'por', $input);
         $input = preg_replace('/\bk\b/', 'que', $input);
 
-        // Saludos
-        if (preg_match('/^(o?la|hola|buenas|hey|hi|buenos|saludos|wenas)/u', $input)) {
-            return '¡Hola! 👋 Soy FitBot, tu asistente de Fitsport. ¿Qué buscas hoy? Tengo zapatillas, ropa deportiva y más.';
+        // Respuestas simples (saludos, identidad, carrito, login, envio, ayuda, despedida)
+        $respuestaSimple = $this->buscarRespuestaSimple($input);
+        if ($respuestaSimple) {
+            return $respuestaSimple;
         }
 
         // Qué vendes / Qué tienes
         if (preg_match('/que.*(vendes|tienes|ofreces|hay|manejas)|vendes|ofreces|productos/u', $input)) {
             return '🛍️ En Fitsport vendemos:<br>👟 Zapatillas running<br>👕 Camisetas deportivas<br>🧥 Sudaderas<br>🩳 Shorts<br><br><a href="/catalog" style="color:#007bff">Ver todo el catálogo</a>';
-        }
-
-        // Identidad del bot
-        if (preg_match('/quien eres|qué eres|eres.*bot|eres.*ia/u', $input)) {
-            return 'Soy FitBot 🤖, el asistente virtual de Fitsport. Puedo ayudarte a encontrar ropa deportiva, ver precios y más.';
         }
 
         // Catálogo
@@ -119,16 +115,6 @@ class FitBotController extends Controller
             return '🧥 Sudaderas disponibles. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
         }
 
-        // Carrito
-        if (preg_match('/carrito|cart|compra|pagar|checkout/u', $input)) {
-            return '🛒 <a href="/cart" style="color:#007bff">Ve a tu carrito</a> para revisar tus productos y proceder al pago.';
-        }
-
-        // Login / Cuenta
-        if (preg_match('/iniciar|login|sesión|cuenta|registrar/u', $input)) {
-            return '👤 <a href="/login" style="color:#007bff">Inicia sesión</a> o <a href="/register" style="color:#007bff">regístrate</a> para comprar.';
-        }
-
         // Precios
         if (preg_match('/precio|costo|cuánto|cuanto|vale|barato/u', $input)) {
             $cheapest = $products->sortBy('price')->first();
@@ -137,11 +123,6 @@ class FitBotController extends Controller
             }
 
             return '💰 Precios desde $29.99. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
-        }
-
-        // Envío
-        if (preg_match('/envío|envio|delivery|entrega|domicilio/u', $input)) {
-            return '📦 ¡Envío GRATIS en compras +$50! Entregamos en todo el país en 3-5 días.';
         }
 
         // Recomendación
