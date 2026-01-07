@@ -31,10 +31,7 @@ class CartController extends Controller
             $size = $request->input('size'); // Get size
 
             if (! $productId) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'se requiere el id del producto',
-                ], 400);
+                return $this->respuestaError('se requiere el id del producto');
             }
             $productId = $request->product_id;
             $quantity = $request->quantity;
@@ -45,10 +42,7 @@ class CartController extends Controller
             $cart = session()->get('cart', []);
 
             if (! $this->hayStockSuficiente($product, $quantity, $cart, $productId)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Stock insuficiente. Solo hay '.$product->stock.' unidades disponibles.',
-                ], 400);
+                return $this->respuestaError('Stock insuficiente. Solo hay '.$product->stock.' unidades disponibles.');
             }
 
             if (! $cart) {
@@ -60,18 +54,10 @@ class CartController extends Controller
 
             session()->put('cart', $cart);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'producto agregado al carrito exitosamente',
-                'cart_count' => $this->getCartCount(),
-                'cart_total' => $this->calculateTotal($cart),
-            ]);
+            return $this->respuestaExito('producto agregado al carrito exitosamente', $cart);
 
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'error '.$e->getMessage(),
-            ], 500);
+            return $this->respuestaError('error '.$e->getMessage(), 500);
         }
     }
 
@@ -214,6 +200,29 @@ class CartController extends Controller
         }
 
         return $total;
+    }
+
+    private function respuestaExito($message, $cart = null, $extras = [])
+    {
+        $data = [
+            'success' => true,
+            'message' => $message,
+            'cart_count' => $this->getCartCount(),
+        ];
+
+        if ($cart !== null) {
+            $data['cart_total'] = $this->calculateTotal($cart);
+        }
+
+        return response()->json(array_merge($data, $extras));
+    }
+
+    private function respuestaError($message, $code = 400)
+    {
+        return response()->json([
+            'success' => false,
+            'message' => $message,
+        ], $code);
     }
 
     /**
