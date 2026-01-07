@@ -81,57 +81,24 @@ class FitBotController extends Controller
         }
 
         // Catálogo
-        if (preg_match('/catálogo|catalogo|ver.*producto|mostrar|todos|lista/u', $input)) {
-            return '📦 <a href="/catalog" style="color:#007bff">Ver catálogo completo</a> - Tenemos '.$products->count().'+ productos disponibles.';
+        if (preg_match('/catalogo|ver.*producto|mostrar|todos|lista/u', $input)) {
+            return $this->respuestaCatalogo($products);
         }
 
-        // Zapatillas
-        if (preg_match('/zapatilla|correr|running|tenis|zapato/u', $input)) {
-            $shoe = $products->first(fn ($p) => str_contains(mb_strtolower($p->name), 'zapatilla'));
-            if ($shoe) {
-                return "🏃 Te recomiendo: <a href=\"/product/{$shoe->id}\" style=\"color:#007bff\">{$shoe->name}</a> por solo \${$shoe->price}";
-            }
-
-            return '🏃 Tenemos zapatillas increíbles. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
-        }
-
-        // Camisetas / Ropa
-        if (preg_match('/camiseta|ropa|playera|polo|dispones/u', $input)) {
-            $shirt = $products->first(fn ($p) => str_contains(mb_strtolower($p->name), 'camiseta'));
-            if ($shirt) {
-                return "👕 Mira esta: <a href=\"/product/{$shirt->id}\" style=\"color:#007bff\">{$shirt->name}</a> - \${$shirt->price}";
-            }
-
-            return '👕 Tenemos ropa deportiva genial. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
-        }
-
-        // Sudaderas
-        if (preg_match('/sudadera|hoodie|chaqueta|abrigo|frío/u', $input)) {
-            $hoodie = $products->first(fn ($p) => str_contains(mb_strtolower($p->name), 'sudadera'));
-            if ($hoodie) {
-                return "🧥 Te encantará: <a href=\"/product/{$hoodie->id}\" style=\"color:#007bff\">{$hoodie->name}</a> - \${$hoodie->price}";
-            }
-
-            return '🧥 Sudaderas disponibles. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
+        // Búsqueda de productos específicos
+        $respuestaProducto = $this->buscarProductoEspecifico($input, $products);
+        if ($respuestaProducto) {
+            return $respuestaProducto;
         }
 
         // Precios
-        if (preg_match('/precio|costo|cuánto|cuanto|vale|barato/u', $input)) {
-            $cheapest = $products->sortBy('price')->first();
-            if ($cheapest) {
-                return "💰 Desde \${$cheapest->price}. El más barato: <a href=\"/product/{$cheapest->id}\" style=\"color:#007bff\">{$cheapest->name}</a>";
-            }
-
-            return '💰 Precios desde $29.99. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
+        if (preg_match('/precio|costo|cuanto|vale|barato/u', $input)) {
+            return $this->respuestaPrecios($products);
         }
 
         // Recomendación
         if (preg_match('/recomienda|sugieres|mejor|popular/u', $input)) {
-            if ($products->count() > 0) {
-                $recommended = $products->random();
-
-                return "⭐ Te recomiendo: <a href=\"/product/{$recommended->id}\" style=\"color:#007bff\">{$recommended->name}</a> - Solo \${$recommended->price}";
-            }
+            return $this->respuestaRecomendacion($products);
         }
 
         // Ayuda
@@ -157,5 +124,49 @@ class FitBotController extends Controller
         }
 
         return null;
+    }
+
+    private function respuestaCatalogo($products)
+    {
+        return '📦 <a href="/catalog" style="color:#007bff">Ver catálogo completo</a> - Tenemos '.$products->count().'+ productos disponibles.';
+    }
+
+    private function buscarProductoEspecifico($input, $products)
+    {
+        $tipos = [
+            ['patron' => '/zapatilla|correr|running|tenis|zapato/u', 'keyword' => 'zapatilla', 'emoji' => '🏃', 'default' => 'zapatillas increíbles'],
+            ['patron' => '/camiseta|ropa|playera|polo|dispones/u', 'keyword' => 'camiseta', 'emoji' => '👕', 'default' => 'ropa deportiva genial'],
+            ['patron' => '/sudadera|hoodie|chaqueta|abrigo/u', 'keyword' => 'sudadera', 'emoji' => '🧥', 'default' => 'sudaderas disponibles'],
+        ];
+
+        foreach ($tipos as $tipo) {
+            if (preg_match($tipo['patron'], $input)) {
+                $producto = $products->first(fn ($p) => str_contains(mb_strtolower($p->name), $tipo['keyword']));
+                if ($producto) {
+                    return "{$tipo['emoji']} Te recomiendo: <a href=\"/product/{$producto->id}\" style=\"color:#007bff\">{$producto->name}</a> - \${$producto->price}";
+                }
+                return "{$tipo['emoji']} Tenemos {$tipo['default']}. <a href=\"/catalog\" style=\"color:#007bff\">Ver catálogo</a>";
+            }
+        }
+
+        return null;
+    }
+
+    private function respuestaPrecios($products)
+    {
+        $cheapest = $products->sortBy('price')->first();
+        if ($cheapest) {
+            return "💰 Desde \${$cheapest->price}. El más barato: <a href=\"/product/{$cheapest->id}\" style=\"color:#007bff\">{$cheapest->name}</a>";
+        }
+        return '💰 Precios desde $29.99. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
+    }
+
+    private function respuestaRecomendacion($products)
+    {
+        if ($products->count() > 0) {
+            $recommended = $products->random();
+            return "⭐ Te recomiendo: <a href=\"/product/{$recommended->id}\" style=\"color:#007bff\">{$recommended->name}</a> - Solo \${$recommended->price}";
+        }
+        return '⭐ Visita nuestro catálogo para ver productos. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
     }
 }

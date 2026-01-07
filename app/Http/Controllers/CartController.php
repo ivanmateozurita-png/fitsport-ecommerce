@@ -5,10 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+/**
+ * Controlador del carrito de compras
+ *
+ * Maneja todas las operaciones relacionadas con el carrito:
+ * agregar productos, actualizar cantidades, eliminar items y vaciar carrito.
+ *
+ * @package App\Http\Controllers
+ */
 class CartController extends Controller
 {
     /**
-     * muestra el contenido del carrito
+     * Muestra el contenido del carrito al usuario
+     *
+     * @return \Illuminate\View\View Vista del carrito con productos y total
      */
     public function index()
     {
@@ -20,7 +30,12 @@ class CartController extends Controller
     }
 
     /**
-     * agrega un producto al carrito
+     * Agrega un producto al carrito de compras
+     *
+     * Valida stock disponible y actualiza la sesion del usuario.
+     *
+     * @param  Request  $request  Datos del producto (product_id, quantity, size)
+     * @return \Illuminate\Http\JsonResponse Respuesta JSON con resultado
      */
     public function add(Request $request)
     {
@@ -62,7 +77,11 @@ class CartController extends Controller
     }
 
     /**
-     * actualiza la cantidad de un producto
+     * Actualiza la cantidad de un producto en el carrito
+     *
+     * @param  Request  $request  Nueva cantidad del producto
+     * @param  int  $id  ID del producto en el carrito
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -105,7 +124,10 @@ class CartController extends Controller
     }
 
     /**
-     * elimina un producto del carrito
+     * Elimina un producto del carrito
+     *
+     * @param  int  $id  ID del producto a eliminar
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function remove($id)
     {
@@ -129,7 +151,9 @@ class CartController extends Controller
     }
 
     /**
-     * vacia el carrito completo
+     * Vacia el carrito completo del usuario
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function clear()
     {
@@ -146,7 +170,9 @@ class CartController extends Controller
     }
 
     /**
-     * retorna el conteo de items (para ajax)
+     * Retorna el conteo total de items en el carrito
+     *
+     * @return \Illuminate\Http\JsonResponse Conteo de items
      */
     public function count()
     {
@@ -157,6 +183,15 @@ class CartController extends Controller
 
     // funciones privadas de ayuda
 
+    /**
+     * Verifica si hay stock suficiente para agregar al carrito
+     *
+     * @param  Product  $product  Producto a verificar
+     * @param  int  $quantity  Cantidad a agregar
+     * @param  array  $cart  Carrito actual
+     * @param  int  $productId  ID del producto
+     * @return bool True si hay stock suficiente
+     */
     private function hayStockSuficiente($product, $quantity, $cart, $productId)
     {
         $currentQty = isset($cart[$productId]) ? $cart[$productId]['quantity'] : 0;
@@ -164,6 +199,16 @@ class CartController extends Controller
         return $product->stock >= ($currentQty + $quantity);
     }
 
+    /**
+     * Agrega o actualiza un item en el carrito
+     *
+     * @param  array  $cart  Carrito actual
+     * @param  int  $productId  ID del producto
+     * @param  Product  $product  Producto a agregar
+     * @param  int  $quantity  Cantidad
+     * @param  string  $size  Talla seleccionada
+     * @return array Carrito actualizado
+     */
     private function agregarItemAlCarrito($cart, $productId, $product, $quantity, $size)
     {
         if (isset($cart[$productId])) {
@@ -190,6 +235,12 @@ class CartController extends Controller
         return array_sum(array_column($cart, 'quantity'));
     }
 
+    /**
+     * Calcula el total del carrito
+     *
+     * @param  array  $cart  Carrito con items
+     * @return float Total del carrito
+     */
     private function calculateTotal($cart)
     {
         $total = 0;
