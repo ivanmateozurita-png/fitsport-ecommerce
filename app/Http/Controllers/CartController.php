@@ -42,16 +42,9 @@ class CartController extends Controller
 
             $product = Product::findOrFail($productId);
 
-            // Validación de stock
             $cart = session()->get('cart', []);
 
-            // Calculate current quantity in cart for this product
-            $currentQty = 0;
-            if (isset($cart[$productId])) {
-                $currentQty = $cart[$productId]['quantity'];
-            }
-
-            if ($product->stock < ($currentQty + $quantity)) {
+            if (! $this->hayStockSuficiente($product, $quantity, $cart, $productId)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Stock insuficiente. Solo hay '.$product->stock.' unidades disponibles.',
@@ -62,7 +55,7 @@ class CartController extends Controller
                 $cart = [];
             }
 
-            // Simple cart item based on product ID only
+            // agregar item al carrito
             if (isset($cart[$productId])) {
                 $cart[$productId]['quantity'] += $quantity;
             } else {
@@ -188,6 +181,13 @@ class CartController extends Controller
     }
 
     // funciones privadas de ayuda
+
+    private function hayStockSuficiente($product, $quantity, $cart, $productId)
+    {
+        $currentQty = isset($cart[$productId]) ? $cart[$productId]['quantity'] : 0;
+
+        return $product->stock >= ($currentQty + $quantity);
+    }
 
     private function getCartCount()
     {
