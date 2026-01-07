@@ -7,6 +7,36 @@ use Illuminate\Http\Request;
 
 class FitBotController extends Controller
 {
+    private $respuestasSimples = [
+        'saludos' => [
+            'patron' => '/^(o?la|hola|buenas|hey|hi|buenos|saludos|wenas)/u',
+            'respuesta' => '¡Hola! 👋 Soy FitBot, tu asistente de Fitsport. ¿Qué buscas hoy? Tengo zapatillas, ropa deportiva y más.',
+        ],
+        'identidad' => [
+            'patron' => '/quien eres|qué eres|eres.*bot|eres.*ia/u',
+            'respuesta' => 'Soy FitBot 🤖, el asistente virtual de Fitsport. Puedo ayudarte a encontrar ropa deportiva, ver precios y más.',
+        ],
+        'carrito' => [
+            'patron' => '/carrito|cart|compra|pagar|checkout/u',
+            'respuesta' => '🛒 <a href="/cart" style="color:#007bff">Ve a tu carrito</a> para revisar tus productos y proceder al pago.',
+        ],
+        'login' => [
+            'patron' => '/iniciar|login|sesión|cuenta|registrar/u',
+            'respuesta' => '👤 <a href="/login" style="color:#007bff">Inicia sesión</a> o <a href="/register" style="color:#007bff">regístrate</a> para comprar.',
+        ],
+        'envio' => [
+            'patron' => '/envío|envio|delivery|entrega|domicilio/u',
+            'respuesta' => '📦 ¡Envío GRATIS en compras +$50! Entregamos en todo el país en 3-5 días.',
+        ],
+        'ayuda' => [
+            'patron' => '/ayuda|help|opciones/u',
+            'respuesta' => 'Puedo ayudarte con:<br>🛍️ <a href="/catalog" style="color:#007bff">Catálogo</a><br>🛒 <a href="/cart" style="color:#007bff">Carrito</a><br>💰 Precios<br>📦 Envíos',
+        ],
+        'despedida' => [
+            'patron' => '/gracias|thanks|adios|bye|chao/u',
+            'respuesta' => '¡Gracias por visitar Fitsport! 🙌 <a href="/catalog" style="color:#007bff">Sigue explorando</a>',
+        ],
+    ];
     /**
      * Procesar mensaje del chatbot
      */
@@ -134,5 +164,16 @@ class FitBotController extends Controller
 
         // Por defecto
         return '🛍️ En Fitsport tenemos:<br>👟 Zapatillas<br>👕 Camisetas<br>🧥 Sudaderas<br><br>Pregunta por algo específico o <a href="/catalog" style="color:#007bff">mira el catálogo</a>';
+    }
+
+    private function buscarRespuestaSimple($input)
+    {
+        foreach ($this->respuestasSimples as $config) {
+            if (preg_match($config['patron'], $input)) {
+                return $config['respuesta'];
+            }
+        }
+
+        return null;
     }
 }
