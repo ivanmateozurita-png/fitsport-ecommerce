@@ -14,15 +14,7 @@ class ProfileController extends Controller
     public function show()
     {
         $user = Auth::user();
-        $profile = $user->profile;
-
-        // Crear perfil si no existe
-        if (! $profile) {
-            $profile = Profile::create([
-                'user_id' => $user->id,
-                'role' => 'client',
-            ]);
-        }
+        $profile = $this->getOrCreateProfile($user);
 
         return view('profile.show', compact('user', 'profile'));
     }
@@ -33,14 +25,7 @@ class ProfileController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        $profile = $user->profile;
-
-        if (! $profile) {
-            $profile = Profile::create([
-                'user_id' => $user->id,
-                'role' => 'client',
-            ]);
-        }
+        $profile = $this->getOrCreateProfile($user);
 
         return view('profile.edit', compact('user', 'profile'));
     }
@@ -62,13 +47,7 @@ class ProfileController extends Controller
         $user->name = $request->name;
         $user->save();
 
-        $profile = $user->profile;
-
-        if (! $profile) {
-            $profile = new Profile;
-            $profile->user_id = $user->id;
-            $profile->role = 'client';
-        }
+        $profile = $this->getOrCreateProfile($user);
 
         $profile->phone = $request->phone;
         $profile->address = $request->address;
@@ -122,5 +101,19 @@ class ProfileController extends Controller
         $profile->save();
 
         return redirect()->route('profile.show')->with('success', '¡Perfil actualizado correctamente!');
+    }
+
+    private function getOrCreateProfile($user)
+    {
+        $profile = $user->profile;
+
+        if (! $profile) {
+            $profile = Profile::create([
+                'user_id' => $user->id,
+                'role' => 'client',
+            ]);
+        }
+
+        return $profile;
     }
 }
