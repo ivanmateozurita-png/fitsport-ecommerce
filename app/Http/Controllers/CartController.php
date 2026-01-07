@@ -56,18 +56,7 @@ class CartController extends Controller
             }
 
             // agregar item al carrito
-            if (isset($cart[$productId])) {
-                $cart[$productId]['quantity'] += $quantity;
-            } else {
-                $cart[$productId] = [
-                    'product_id' => $product->id,
-                    'name' => $product->name,
-                    'price' => $product->price,
-                    'quantity' => $quantity,
-                    'image_path' => $product->image_path,
-                    'size' => $size,
-                ];
-            }
+            $cart = $this->agregarItemAlCarrito($cart, $productId, $product, $quantity, $size);
 
             session()->put('cart', $cart);
 
@@ -187,6 +176,24 @@ class CartController extends Controller
         $currentQty = isset($cart[$productId]) ? $cart[$productId]['quantity'] : 0;
 
         return $product->stock >= ($currentQty + $quantity);
+    }
+
+    private function agregarItemAlCarrito($cart, $productId, $product, $quantity, $size)
+    {
+        if (isset($cart[$productId])) {
+            $cart[$productId]['quantity'] += $quantity;
+        } else {
+            $cart[$productId] = [
+                'product_id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $quantity,
+                'image_path' => $product->image_path,
+                'size' => $size,
+            ];
+        }
+
+        return $cart;
     }
 
     private function getCartCount()
