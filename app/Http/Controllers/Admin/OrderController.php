@@ -77,7 +77,7 @@ class OrderController extends Controller
     /**
      * Restaura el stock de todos los productos de un pedido
      *
-     * @param Order $order Pedido con items cargados
+     * @param  Order  $order  Pedido con items cargados
      * @return void
      */
     private function restoreStock(Order $order)
@@ -91,4 +91,3 @@ class OrderController extends Controller
         }
     }
 }
-
