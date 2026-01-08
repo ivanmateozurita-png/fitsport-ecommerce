@@ -138,3 +138,51 @@ h6,
     transform: translateY(-4px) !important;
     /* Ajuste visual para subir el avatar */
 }
+
+/* FIX: Ocultar elementos de owl-carousel en panel admin */
+.owl-nav,
+.owl-dots,
+.owl-carousel .owl-nav,
+.owl-carousel .owl-dots,
+.owl-prev,
+.owl-next,
+.hero__slider,
+.owl-carousel {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+/* FIX: SVGs de paginación gigantes */
+nav svg,
+.pagination svg,
+nav[aria-label] svg,
+[role="navigation"] svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    max-width: 20px !important;
+    max-height: 20px !important;
+    flex-shrink: 0;
+}
+
+/* Estilos para los botones de paginación */
+nav[aria-label] span,
+nav[aria-label] a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.5rem !important;
+}
+
+/* Forzar clases Tailwind comunes usadas por Laravel pagination */
+.w-5 {
+    width: 1.25rem !important;
+}
+
+.h-5 {
+    height: 1.25rem !important;
+}

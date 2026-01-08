@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -32,6 +33,7 @@ class OrderController extends Controller
 
     /**
      * actualiza el estado del pedido
+     * Si se cancela, restaura el stock de los productos
      */
     public function updateStatus(Request $request, $id)
     {
@@ -39,8 +41,16 @@ class OrderController extends Controller
             'status' => 'required|in:pending,shipped,delivered,cancelled',
         ]);
 
-        $order = Order::findOrFail($id);
-        $order->status = $request->status;
+        $order = Order::with('items')->findOrFail($id);
+        $previousStatus = $order->status;
+        $newStatus = $request->status;
+
+        // Si se cancela y antes no estaba cancelado, restaurar stock
+        if ($newStatus === 'cancelled' && $previousStatus !== 'cancelled') {
+            $this->restoreStock($order);
+        }
+
+        $order->status = $newStatus;
         $order->save();
 
         return redirect()->back()->with('success', 'estado del pedido actualizado correctamente');
@@ -48,13 +58,37 @@ class OrderController extends Controller
 
     /**
      * elimina el pedido de la base de datos
+     * Si el pedido no estaba cancelado, restaura el stock primero
      */
     public function destroy($id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::with('items')->findOrFail($id);
+
+        // Si el pedido no estaba cancelado, restaurar stock antes de eliminar
+        if ($order->status !== 'cancelled') {
+            $this->restoreStock($order);
+        }
 
         $order->delete();
 
         return redirect()->route('admin.orders.index')->with('success', 'pedido eliminado correctamente');
     }
+
+    /**
+     * Restaura el stock de todos los productos de un pedido
+     *
+     * @param Order $order Pedido con items cargados
+     * @return void
+     */
+    private function restoreStock(Order $order)
+    {
+        foreach ($order->items as $item) {
+            $product = Product::find($item->product_id);
+            if ($product) {
+                $product->stock += $item->quantity;
+                $product->save();
+            }
+        }
+    }
 }
+
