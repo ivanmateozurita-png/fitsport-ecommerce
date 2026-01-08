@@ -2,9 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property float $total
+ * @property string $status
+ * @property string|null $shipping_address
+ * @property \Carbon\Carbon $date
+ * @property-read User $user
+ * @property-read Collection<int, OrderItem> $items
+ */
 class Order extends Model
 {
     use HasFactory;
