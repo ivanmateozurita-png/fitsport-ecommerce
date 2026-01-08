@@ -145,6 +145,7 @@ class FitBotController extends Controller
                 if ($producto) {
                     return "{$tipo['emoji']} Te recomiendo: <a href=\"/product/{$producto->id}\" style=\"color:#007bff\">{$producto->name}</a> - \${$producto->price}";
                 }
+
                 return "{$tipo['emoji']} Tenemos {$tipo['default']}. <a href=\"/catalog\" style=\"color:#007bff\">Ver catálogo</a>";
             }
         }
@@ -158,6 +159,7 @@ class FitBotController extends Controller
         if ($cheapest) {
             return "💰 Desde \${$cheapest->price}. El más barato: <a href=\"/product/{$cheapest->id}\" style=\"color:#007bff\">{$cheapest->name}</a>";
         }
+
         return '💰 Precios desde $29.99. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
     }
 
@@ -165,8 +167,10 @@ class FitBotController extends Controller
     {
         if ($products->count() > 0) {
             $recommended = $products->random();
+
             return "⭐ Te recomiendo: <a href=\"/product/{$recommended->id}\" style=\"color:#007bff\">{$recommended->name}</a> - Solo \${$recommended->price}";
         }
+
         return '⭐ Visita nuestro catálogo para ver productos. <a href="/catalog" style="color:#007bff">Ver catálogo</a>';
     }
 }

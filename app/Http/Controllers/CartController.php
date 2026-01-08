@@ -10,8 +10,6 @@ use Illuminate\Http\Request;
  *
  * Maneja todas las operaciones relacionadas con el carrito:
  * agregar productos, actualizar cantidades, eliminar items y vaciar carrito.
- *
- * @package App\Http\Controllers
  */
 class CartController extends Controller
 {
